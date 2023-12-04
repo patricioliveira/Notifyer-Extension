@@ -16,8 +16,8 @@ def webhook():
 
         # Lógica para decidir quando enviar mensagem pelo WhatsApp
         if status_pedido == 3:  # Coloque o status desejado aqui
-            verificado = verifify_session()
-            if verificado == True:
+            verificado = verify_session()
+            if verificado != None:
                 enviar_mensagem_whatsapp(numero_pedido, telefone_cliente, nome_cliente)
 
         return jsonify({"success": True})
@@ -43,7 +43,7 @@ def enviar_mensagem_whatsapp(numero_pedido, telefone_cliente, nome_cliente):
         response = requests.post(whatsapp_api_url_verifySession)
         
         # Faça a requisição para a API do WhatsApp HTTP - Enviar Notificação de Status do Pedido
-        response = requests.post(whatsapp_api_url_sendMessage, json=dataMessage)
+        response = requests.post(whatsapp_api_url_sendMessage)
 
         if response.status_code == 200:
             print(f"Mensagem para {nome_cliente} enviada com sucesso!")
@@ -73,19 +73,18 @@ def verify_session():
 
             if response.status_code == 200:
                 print(f"Verificação da sessão foi completa. A sessão {sessionName} está funcionando corretamente!")
-                return True, sessionName
+                return sessionName
             else:
                 print(f"Falha ao verificar funcionamento da sessão. Código de status: {response.status_code}")
-                return False
+                return None
             
         else:
             print(f"Falha ao encontrar sessão. Código de status: {name_session.status_code}")
+            return None
 
     except Exception as e:
         print(f"Erro ao verificar sessão: {str(e)}")
 
-def getNamedSession():
-    
 
 
 
