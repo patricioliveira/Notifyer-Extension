@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Notifyer",
+  "description": "Notifique os clientes do seu negócio pelo WhatsApp a partir do seu painel de pedidos.",
+  "version": "1.0",
+  "permissions": ["debugger", "tabs"],
+  "host_permissions": ["https://www.google.com/*"],
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://instadelivery.com.br/*"],
+      "js": ["content-script.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "web_accessible_resources": [{
+    "resources": ["script.js"],
+    "matches": ["https://instadelivery.com.br/*"]
+  }],
+  "action": {}
+}
