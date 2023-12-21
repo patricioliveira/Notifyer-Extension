@@ -1,13 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bulma.min.css">
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/principal.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;500;600&family=Ubuntu:wght@300&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="content">
-        xablau!
+    <div class="container">
+        <div id="popup" class="item">
+            <div id="logo">
+                <img src="/images/logo-white.png">
+            </div>
+        </div>
+        <div class="item">
+            <div class="field">
+                <div class="control has-icons-left">
+                  <input class="input is-medium" type="text" placeholder="EMAIL">
+                  <span class="icon is-small is-left">
+                    <i class="fa-solid fa-at"></i>
+                  </span>
+                </div>
+                <!-- <p class="help is-success">This username is available</p> -->
+            </div>
+        </div>
+        <div class="item">
+            <div class="field">
+                <div class="control has-icons-left">
+                  <input class="input is-medium" type="text" placeholder="SENHA">
+                  <span class="icon is-small is-left">
+                    <i class="fa-solid fa-lock"></i>
+                  </span>
+                </div>
+                <!-- <p class="help is-success">This username is available</p> -->
+            </div>
+        </div>
+        <div class="item buttons">
+            <button id="button-login" class="button is-info is-light is-medium">
+                <span>AUTENTICAR</span> 
+                <span class="icon is-small"> 
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                </span> 
+            </button>
+        </div>
     </div>
     <script src="popup.js"></script>
+    <script src="js/all.min.js"></script>
 </body>
 </html>

@@ -1,0 +1,58 @@
+body {
+    width: 25rem;
+    height: 25rem;
+    flex-shrink: 0;
+    border-radius: 0.9375rem;
+    background: #FFF;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem;
+}
+.item{
+    padding-top: 1rem;
+}
+
+#logo{
+    width: 7rem;
+    height: 7rem;
+    flex-shrink: 0;
+    fill: #D2CFCF;
+}
+
+input{
+    border-radius: 0.5rem !important;
+    background: #EFF0EB !important;
+}   
+
+input::placeholder {
+    color: #C7C8C4 !important;
+    font-family: Ubuntu !important;
+    font-size: 1rem !important;
+    /* font-style: normal !important; */
+    font-weight: 600 !important;
+    /* line-height: normal !important; */
+}
+
+#button-login{
+    margin-top: 0.5rem;
+    width: 18.2rem;
+}
+
+.button.is-info.is-light {
+    font-family: Ubuntu !important;
+    font-weight: 600 !important;
+    border-radius: 0.5rem;
+    background-color: #E6D7FF;
+    color: #8941FF;
+}
+
+.button.is-info.is-light:hover {
+    background-color: #8941ff;
+    color: #E6D7FF;
+}
+
+
