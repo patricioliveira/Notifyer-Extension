@@ -2,14 +2,14 @@
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="css/bulma.min.css">
-    <link rel="stylesheet" href="css/all.min.css">
-    <link rel="stylesheet" href="css/principal.css">
+    <link rel="stylesheet" href="../../../css/bulma.min.css">
+    <link rel="stylesheet" href="../../../css/all.min.css">
+    <link rel="stylesheet" href="../../../css/principal.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;500;600&family=Ubuntu:wght@300&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
+    <form class="container" id="authForm">
         <div id="popup" class="item">
             <div id="logo">
                 <img src="/images/logo-white.png">
@@ -38,15 +38,15 @@
             </div>
         </div>
         <div class="item buttons">
-            <button id="button-login" class="button is-info is-light is-medium">
+            <button id="button-login" value="Submit" form="authForm" class="button is-info is-light is-medium">
                 <span>AUTENTICAR</span> 
                 <span class="icon is-small"> 
                     <i class="fa-solid fa-right-to-bracket"></i>
                 </span> 
             </button>
         </div>
-    </div>
+    </form>
     <script type="module" src="popup.js"></script>
-    <script src="js/all.min.js"></script>
+    <script src="../../../libs/all.min.js"></script>
 </body>
 </html>

@@ -6,7 +6,7 @@
   "permissions": ["debugger", "tabs"],
   "host_permissions": ["https://instadelivery.com.br/store/orders/*"],
   "action": {
-    "default_popup": "popup.html",
+    "default_popup": "/src/pages/popup/popup.html",
     "default_icon": {
       "16": "/images/icon-16.png",
       "32": "/images/icon-32.png",
