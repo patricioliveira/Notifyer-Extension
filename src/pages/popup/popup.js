@@ -6,24 +6,38 @@ const UserData = new LoginUser();
 
 let submitButton = document.getElementById("button-login");
 let logoutButton = document.getElementById("button-logout");
+let token = localStorage.getItem('token');
+
+if(token){
+  showCentralStatusPanel();
+}
 
 if (submitButton != null) {  
   submitButton?.addEventListener("click", async (event) => {
     // Impede o envio padrão do formulário
     event.preventDefault();
+    hideMsgError();
 
     UserData.username = document.getElementById('user').value;
     UserData.password = document.getElementById('password').value;
     
-    UserData.username = 'admin2';
-    UserData.password = 'password123';
+    //UserData.username = 'eve.holt@reqres.in';
+    //UserData.password = 'cityslicka';
 
     UserData.verifyUserData(UserData);
 
     console.log("Usuário: " + UserData.username + " - Senha: " + UserData.password);
+
     submitButton.classList.add('is-loading');
-    var response = await requisicoes.post('/auth');
-    showCentralStatusPanel();
+
+    var response = await requisicoes.post('/login', UserData);
+    if(response['token']){
+      showCentralStatusPanel();
+      localStorage.setItem("token", response['token'])
+    }else{
+      showMsgError(response['error'])
+    }
+
     submitButton.classList.remove('is-loading');
     console.log(response);
 
@@ -31,7 +45,10 @@ if (submitButton != null) {
 }
 
 if(logoutButton != null){
-  hideCentralStatusPanel();
+  logoutButton?.addEventListener("click", async (event) => {
+    hideCentralStatusPanel();
+    localStorage.removeItem('token');
+  })
 }
 
 function showCentralStatusPanel(){
@@ -47,5 +64,14 @@ function hideCentralStatusPanel(){
   container[1].style.display = 'none';
 }
 
+function showMsgError(msg){
+  let errorMsgElement = document.getElementById('errorMsg');
+  errorMsgElement.textContent = msg;
+}
+
+function hideMsgError(){
+  let errorMsgElement = document.getElementById('errorMsg');
+  errorMsgElement.textContent = '';
+}
 
 

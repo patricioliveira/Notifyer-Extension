@@ -1,5 +1,5 @@
-const URLBASE = 'https://restful-booker.herokuapp.com';
-
+const URLBASE = 'https://reqres.in/api';
+ 
 export class RequisicoesHTTP {
     constructor(baseURL = URLBASE) {
       this.baseURL = baseURL;
