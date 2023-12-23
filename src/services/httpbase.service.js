@@ -1,4 +1,4 @@
-const URLBASE = 'https://jsonplaceholder.typicode.com';
+const URLBASE = 'https://restful-booker.herokuapp.com';
 
 export class RequisicoesHTTP {
     constructor(baseURL = URLBASE) {
