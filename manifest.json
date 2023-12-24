@@ -3,8 +3,9 @@
   "name": "Notifyer Extension",
   "description": "Notifique os clientes do seu negócio pelo WhatsApp a partir do seu painel de pedidos.",
   "version": "1.0",
-  "permissions": ["debugger", "tabs"],
-  "host_permissions": ["https://instadelivery.com.br/store/orders/*", "https://restful-booker.herokuapp.com/*"],
+  "permissions": ["debugger", "tabs", "storage"],
+  "host_permissions": ["https://instadelivery.com.br/store/orders/*"],
+  "options_page": "/src/pages/options/options.html",
   "action": {
     "default_popup": "/src/pages/popup/popup.html",
     "default_icon": {
