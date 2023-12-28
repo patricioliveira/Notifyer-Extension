@@ -1,25 +1,47 @@
-chrome.action.onClicked.addListener(function (tab) {
-  if (tab.url.startsWith('http')) {
-    chrome.debugger.attach({ tabId: tab.id }, '1.2', function () {
-      chrome.debugger.sendCommand(
-        { tabId: tab.id },
-        'Network.enable',
-        {},
-        function () {
-          if (chrome.runtime.lastError) {
-            console.error(chrome.runtime.lastError);
-          }
-        }
-      );
-    });
-  } else {
-    console.log('Debugger can only be attached to HTTP/HTTPS pages.');
+// background.js
+
+importScripts('./src/class/logdata-model.js');
+importScripts('./src/services/database.service.js');
+
+chrome.runtime.onInstalled.addListener(async (details) => {
+  // Criar uma instância da classe DatabaseService
+  const databaseService = new DatabaseService();
+
+  // Criar ou abrir o IndexedDB durante a instalação
+  if (details.reason === 'install'){
+    const db = await databaseService.openDB();
+    const logData = new LogData("Extensão instalada", details);
+    databaseService.insertData(logData);
+  }
+
+  else if (details.reason === 'update') {
+    const logData = new LogData("Extensão atualizada", details);
+    databaseService.insertData(logData);
   }
 });
 
-chrome.debugger.onEvent.addListener(function (source, method, params) {
-  if (method === 'Network.responseReceived') {
-    console.log('Response received:', params.response);
-    // Perform your desired action with the response data
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+  // Ação baseada na atualização da guia
+  const databaseService = new DatabaseService();
+
+  if (changeInfo.status === "complete" && tab.url.toString().startsWith("https://instadelivery.com.br/store/orders/")){
+    // Registre no logbook
+    const logData = new LogData(`Recarregada a guia do Painel de Pedidos do Instadelivery da loja com id: ${tab.url.substring(42)}`, tab);
+    // Chame um método para inserir os dados no IndexedDB
+    databaseService.insertData(logData);
   }
+});
+
+chrome.tabs.onActivated.addListener((activeInfo) => {
+  const databaseService = new DatabaseService();
+
+  const logData = new LogData('Guia do painel de pedidos ativada e em operação', activeInfo);
+  databaseService.insertData(logData)
+});
+
+chrome.storage.local.get(['key'], (result) => {
+  const databaseService = new DatabaseService();
+
+  const logData = new LogData('Dados recuperados do armazenamento local:', result);
+  databaseService.insertData(logData)
 });
