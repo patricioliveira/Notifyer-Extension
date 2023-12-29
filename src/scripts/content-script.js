@@ -18,4 +18,4 @@ function injectCode(src) {
 }
 
 
-injectCode(chrome.runtime.getURL('/script.js'));
+injectCode(chrome.runtime.getURL('./interceptor.js'));

@@ -1,6 +1,6 @@
 // log-model.js
 
-class LogData {
+export class LogData {
     constructor(action, details) {
         this.action = action;
         this.details = details;

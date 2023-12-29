@@ -1,8 +1,8 @@
 // database.service.js
 
-class DatabaseService {
+export class DatabaseService {
     constructor() {
-        this.DB_NAME = "NotifyerLogsDB";
+        this.DB_NAME = "NotifyerDB";
         this.DB_VERSION = 1;
         this.db = null;
         this.resolve = null;

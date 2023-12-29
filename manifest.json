@@ -22,17 +22,19 @@
     "128": "/images/icon-128.png"
   },
   "background": {
-    "service_worker": "service-worker.js"
+    "service_worker": "./src/services/service-worker.service.js",
+    "script": ["./src/class/logdata-model.js", "./src/services/database.service.js"],
+    "type": "module"
   },
   "content_scripts": [
     {
       "matches": ["https://instadelivery.com.br/store/orders/*"],
-      "js": ["content-script.js"],
+      "js": ["./src/scripts/content-script.js"],
       "run_at": "document_end"
     }
   ],
   "web_accessible_resources": [{
-    "resources": ["script.js"],
+    "resources": ["./src/scripts/interceptor.js"],
     "matches": ["https://instadelivery.com.br/*"]
   }]
 }
