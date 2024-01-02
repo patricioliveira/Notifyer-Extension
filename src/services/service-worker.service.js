@@ -40,3 +40,10 @@ chrome.storage.local.get(['key'], (result) => {
   const logData = new LogData('Dados recuperados do armazenamento local:', result);
   databaseService.insertData(logData)
 });
+
+chrome.commands.onCommand.addListener(function (command) {
+  if (command === "openOptions") {
+    // Lógica para abrir as opções da extensão
+    chrome.runtime.openOptionsPage();
+  }
+});

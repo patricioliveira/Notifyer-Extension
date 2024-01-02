@@ -3,9 +3,6 @@ import { LoginUser } from '../../class/user-model.js';
 import { LogData } from '../../class/logdata-model.js';
 import { DatabaseService } from '../../services/database.service.js';
 
-// importScripts('../../services/database.service.js');
-// importScripts('../../class/logdata-model.js');
-
 const requisicoes = new RequisicoesHTTP();
 const UserData = new LoginUser();
 const databaseService = new DatabaseService();
@@ -13,6 +10,7 @@ const databaseService = new DatabaseService();
 let submitButton = document.getElementById("button-login");
 let logoutButton = document.getElementById("button-logout");
 let token = localStorage.getItem('token');
+document.getElementById('errorDiv').style.display = 'none';
 
 if(token){
   showCentralStatusPanel();
@@ -63,7 +61,6 @@ function showCentralStatusPanel(){
   let container = document.getElementsByClassName('container');
   container[0].style.display = 'none';
   container[1].style.display = 'flex';
-
 }
 
 function hideCentralStatusPanel(){
@@ -74,11 +71,15 @@ function hideCentralStatusPanel(){
 
 function showMsgError(msg){
   let errorMsgElement = document.getElementById('errorMsg');
+  let errorDiv = document.getElementById('errorDiv');
+  errorDiv.style.display = 'block';
   errorMsgElement.textContent = msg;
 }
 
 function hideMsgError(){
   let errorMsgElement = document.getElementById('errorMsg');
+  let errorDiv = document.getElementById('errorDiv');
+  errorDiv.style.display = 'none';
   errorMsgElement.textContent = '';
 }
 

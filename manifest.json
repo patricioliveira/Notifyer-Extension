@@ -3,6 +3,7 @@
   "name": "Notifyer Extension",
   "description": "Notifique os clientes do seu negócio pelo WhatsApp a partir do seu painel de pedidos.",
   "version": "1.0",
+  "author": "Notifyer Team",
   "permissions": ["debugger", "tabs", "storage"],
   "host_permissions": ["https://instadelivery.com.br/store/orders/*"],
   "options_page": "/src/pages/options/options.html",
@@ -36,5 +37,13 @@
   "web_accessible_resources": [{
     "resources": ["./src/scripts/interceptor.js"],
     "matches": ["https://instadelivery.com.br/*"]
-  }]
+  }],
+  "commands": {
+    "openOptions": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y"
+      },
+      "description": "Abre as opções da extensão"
+    }
+  }
 }
