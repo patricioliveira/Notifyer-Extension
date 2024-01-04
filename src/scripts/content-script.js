@@ -7,10 +7,12 @@ const nullthrows = (v) => {
 
 function injectCode(src) {
     const script = document.createElement('script');
+    alert("O notifyer está processando a integração com seu painel de pedidos, por favor recarregar a página!");
     // This is why it works!
     script.src = src;
     script.onload = function() {
-        console.log("script injected");
+        alert("integração com o painel de pedidos foi concluída com sucesso!");
+        console.log("script")
     };
     // This script runs before the <head> element is created,
     // so we add the script to <html> instead.
