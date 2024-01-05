@@ -1,5 +1,7 @@
 # Notifyer Extension
 
+<img src="./images/logo_readme.jpg" alt="Notifyer">
+
 Uma extensão personalizada para o Chrome projetada exclusivamente para uso interno, permitindo que a equipe de desenvolvimento da Notifyer Team notifique os clientes pelo WhatsApp diretamente do painel de pedidos do Instadelivery.
 
 ## Visão Geral do Projeto
