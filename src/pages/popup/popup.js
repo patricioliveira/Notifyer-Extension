@@ -45,8 +45,7 @@ if (submitButton != null) {
     }
 
     submitButton.classList.remove('is-loading');
-    console.log(response);
-
+    
   });
 }
 

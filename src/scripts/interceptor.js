@@ -128,9 +128,6 @@ class Notification extends Order {
                 }
                 return response.json();
             })
-            .then(data => {
-                console.log('API Response:', data);
-            })
             .catch(error => {
                 console.error('Erro ao enviar mensagem para a API:', error);
             });
