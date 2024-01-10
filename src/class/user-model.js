@@ -6,12 +6,12 @@ export class LoginUser {
     /**
      * @type {string} - O nome de usuário.
      */
-    username;
+    Email;
 
     /**
      * @type {string} - A senha (inicializada como uma string vazia por padrão).
      */
-    password;
+    Password;
 
     /**
      * Verifica os dados do usuário.
@@ -21,7 +21,7 @@ export class LoginUser {
     verifyUserData(loginData) {
         // Lógica de verificação dos dados do usuário aqui.
         // Lança uma exceção se os dados não são válidos.
-        if(loginData.username == '' || loginData.password == ''){
+        if(loginData.email == '' || loginData.password == ''){
             throw new Exception("Inserir dados para fazer o login");
         }
     }

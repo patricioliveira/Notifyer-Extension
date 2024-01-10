@@ -22,8 +22,8 @@ if (submitButton != null) {
     event.preventDefault();
     hideMsgError();
 
-    UserData.username = document.getElementById('user').value;
-    UserData.password = document.getElementById('password').value;
+    UserData.Email = document.getElementById('user').value;
+    UserData.Password = document.getElementById('password').value;
     
     //UserData.username = 'eve.holt@reqres.in';
     //UserData.password = 'cityslicka';
@@ -32,16 +32,17 @@ if (submitButton != null) {
 
     submitButton.classList.add('is-loading');
 
-    var response = await requisicoes.post('/login', UserData);
-    if(response['token']){
+    var response = await requisicoes.post('/auth/signin', UserData);
+    if(response['token'] ? response['token'] : response){
       showCentralStatusPanel();
+      // UserData.token = response['token']
       localStorage.setItem("token", response['token'])
       const logData = new LogData("Login autenticado com sucesso", UserData)
       databaseService.insertData(logData)
     }else{
-      const logData = new LogData("Falha na autenticação", response['error'])
+      const logData = new LogData("Falha na autenticação", response['error'] ? response['error'] : response)
       databaseService.insertData(logData)
-      showMsgError(response['error'])
+      showMsgError(response['error'] ? response['error'] : response)
     }
 
     submitButton.classList.remove('is-loading');
