@@ -37,6 +37,12 @@ export class RequisicoesHTTP {
           }
 
           const jsonResponse = await response.json();
+          
+          if (response.status === 200 && requestOptions.method === 'POST' && jsonResponse.Result) {
+            document.cookie = jsonResponse.Result;
+            console.log('Cookie definido:', document.cookie);
+          }
+
           return jsonResponse;
         } catch (error) {
           console.error(`Erro no ${metodo.toUpperCase()}:`, error);

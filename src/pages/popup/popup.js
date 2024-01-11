@@ -31,16 +31,18 @@ if (submitButton != null) {
     UserData.verifyUserData(UserData);
 
     submitButton.classList.add('is-loading');
-
-    var response = await requisicoes.post('/auth/signin', UserData);
-    if(response['token'] ? response['token'] : response){
+    var response = null;
+    response = await requisicoes.post('/auth/signin', UserData);
+    if(response?.Result){
       showCentralStatusPanel();
-      // UserData.token = response['token']
-      localStorage.setItem("token", response['token'])
-      const logData = new LogData("Login autenticado com sucesso", UserData)
+      UserData.Password = '*';
+      let userData = { ...UserData} 
+      userData.Token = response.Result
+      localStorage.setItem("AccessToken", userData.Token)
+      let logData = new LogData("Login autenticado com sucesso", userData)
       databaseService.insertData(logData)
     }else{
-      const logData = new LogData("Falha na autenticação", response['error'] ? response['error'] : response)
+      let logData = new LogData("Falha na autenticação", response['error'] ? response['error'] : response)
       databaseService.insertData(logData)
       showMsgError(response['error'] ? response['error'] : response)
     }
@@ -52,8 +54,14 @@ if (submitButton != null) {
 
 if(logoutButton != null){
   logoutButton?.addEventListener("click", async (event) => {
-    hideCentralStatusPanel();
-    localStorage.removeItem('token');
+      event.preventDefault();
+      let response = await requisicoes.get('/auth/signout', '');
+      cleanInputs();
+      localStorage.removeItem('AccessToken');
+      let logData = new LogData("Usuário deslogado com sucesso e AccessToken removido do Local Storage!", response)
+      databaseService.insertData(logData)
+      
+      hideCentralStatusPanel();
   })
 }
 
@@ -81,6 +89,11 @@ function hideMsgError(){
   let errorDiv = document.getElementById('errorDiv');
   errorDiv.style.display = 'none';
   errorMsgElement.textContent = '';
+}
+
+function cleanInputs(){
+  document.getElementById('user').value = '';
+  document.getElementById('password').value = '';
 }
 
 
