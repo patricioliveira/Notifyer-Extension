@@ -9,10 +9,11 @@ const databaseService = new DatabaseService();
 
 let submitButton = document.getElementById("button-login");
 let logoutButton = document.getElementById("button-logout");
-let token = localStorage.getItem('token');
+let AccessToken = localStorage.getItem('AccessToken');
 document.getElementById('errorDiv').style.display = 'none';
+hideMsgError();
 
-if(token){
+if (AccessToken){
   showCentralStatusPanel();
 }
 
@@ -24,9 +25,6 @@ if (submitButton != null) {
 
     UserData.Email = document.getElementById('user').value;
     UserData.Password = document.getElementById('password').value;
-    
-    //UserData.username = 'eve.holt@reqres.in';
-    //UserData.password = 'cityslicka';
 
     UserData.verifyUserData(UserData);
 
@@ -42,26 +40,27 @@ if (submitButton != null) {
       let logData = new LogData("Login autenticado com sucesso", userData)
       databaseService.insertData(logData)
     }else{
-      let logData = new LogData("Falha na autenticação", response['error'] ? response['error'] : response)
-      databaseService.insertData(logData)
-      showMsgError(response['error'] ? response['error'] : response)
+      showMsgError(response)
     }
-
-    submitButton.classList.remove('is-loading');
-    
+    submitButton.classList.remove('is-loading');  
   });
 }
 
 if(logoutButton != null){
   logoutButton?.addEventListener("click", async (event) => {
+      // Impede o envio padrão do formulário
       event.preventDefault();
-      let response = await requisicoes.get('/auth/signout', '');
-      cleanInputs();
-      localStorage.removeItem('AccessToken');
-      let logData = new LogData("Usuário deslogado com sucesso e AccessToken removido do Local Storage!", response)
-      databaseService.insertData(logData)
-      
-      hideCentralStatusPanel();
+      AccessToken = localStorage.getItem('AccessToken');
+      let response = await requisicoes.post('/auth/signout', document.cookie);
+      if(response.Status){
+        cleanInputs();
+        localStorage.removeItem('AccessToken');
+        let logData = new LogData("Usuário deslogado com sucesso e AccessToken removido do Local Storage!", AccessToken)
+        databaseService.insertData(logData)
+        hideCentralStatusPanel();
+      }else{
+        showMsgError(response)
+      }    
   })
 }
 
@@ -82,6 +81,9 @@ function showMsgError(msg){
   let errorDiv = document.getElementById('errorDiv');
   errorDiv.style.display = 'block';
   errorMsgElement.textContent = msg;
+  setTimeout(() => {
+    hideMsgError();
+  }, 4000);
 }
 
 function hideMsgError(){
