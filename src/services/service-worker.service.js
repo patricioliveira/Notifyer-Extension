@@ -33,17 +33,39 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
 chrome.tabs.onActivated.addListener((activeInfo) => {
   const logData = new LogData('Guia do painel de pedidos ativada e em operação', activeInfo);
-  databaseService.insertData(logData)
-});
-
-chrome.storage.local.get(['key'], (result) => {
-  const logData = new LogData('Dados recuperados do armazenamento local:', result);
-  databaseService.insertData(logData)
+  databaseService.insertData(logData);
 });
 
 chrome.commands.onCommand.addListener(function (command) {
   if (command === "openOptions") {
     // Lógica para abrir as opções da extensão
     chrome.runtime.openOptionsPage();
+    const logData = new LogData('Usuário executou o comando de abertura do options', command);
+    databaseService.insertData(logData);
   }
 });
+
+//todo: verificar se essas funcões estão funcionando corretamente na rotina de logs
+
+chrome.cookies.onChanged.addListener((changeInfo) => {
+  const logData = new LogData('Alteração em cookies', changeInfo);
+  databaseService.insertData(logData);
+});
+
+chrome.extension.onConnect.addListener((port) => {
+  const logData = new LogData('Pop-up aberto', port.sender);
+  databaseService.insertData(logData);
+
+  port.onDisconnect.addListener(() => {
+    const logData = new LogData('Pop-up fechado', port.sender);
+    databaseService.insertData(logData);
+  });
+});
+
+const xhr = new XMLHttpRequest();
+xhr.onreadystatechange = () => {
+  if (xhr.readyState === XMLHttpRequest.DONE) {
+    const logData = new LogData('Comunicação externa concluída', { response: xhr.responseText });
+    databaseService.insertData(logData);
+  }
+};
