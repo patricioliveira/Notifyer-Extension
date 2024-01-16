@@ -51,7 +51,7 @@ if(logoutButton != null){
       // Impede o envio padrão do formulário
       event.preventDefault();
       AccessToken = localStorage.getItem('AccessToken');
-      let response = await requisicoes.post('/auth/signout', document.cookie);
+      let response = await requisicoes.post('/auth/signout', {});
       if(response.Status){
         cleanInputs();
         localStorage.removeItem('AccessToken');

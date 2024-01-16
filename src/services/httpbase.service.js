@@ -9,7 +9,11 @@ export class RequisicoesHTTP {
     }
       
     fazerRequisicao = async (url, metodo, dados) => {
-        
+        let cookie = ""
+        chrome.cookies.get({ "url": "https://instadelivery.com.br/", "name": "access_token" }, function (cookie) {
+          cookie = cookie.value;
+        });
+
         var myHeaders = new Headers();
           myHeaders.append("Accept", "application/json");
           myHeaders.append("Accept-Language", "pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7");
@@ -22,6 +26,8 @@ export class RequisicoesHTTP {
           myHeaders.append("sec-ch-ua", "\"Chromium\";v=\"116\", \"Not)A;Brand\";v=\"24\", \"Google Chrome\";v=\"116\"");
           myHeaders.append("sec-ch-ua-mobile", "?0");
           myHeaders.append("sec-ch-ua-platform", "\"Windows\"");
+          if (cookie)
+            myHeaders.append("Cookie", "access_token=" + cookie);
 
         var requestOptions = {
           method: metodo,
@@ -40,7 +46,12 @@ export class RequisicoesHTTP {
             throw new Error(`${erro}`);
           }else{
             const jsonResponse = await response.json();
-            document.cookie =  "access_token="+jsonResponse.Result;
+            chrome.cookies.set({
+              "name": "access_token",
+              "url": "https://instadelivery.com.br/",
+              "value": jsonResponse.Result
+            });
+
             return jsonResponse;
           }
         } catch (error) {return error}
