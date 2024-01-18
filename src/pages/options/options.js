@@ -1,32 +1,44 @@
-// // Saves options to chrome.storage
-// const saveOptions = () => {
-//     const color = document.getElementById('color').value;
-//     const likesColor = document.getElementById('like').checked;
-  
-//     chrome.storage.sync.set(
-//       { favoriteColor: color, likesColor: likesColor },
-//       () => {
-//         // Update status to let user know options were saved.
-//         const status = document.getElementById('status');
-//         status.textContent = 'Options saved.';
-//         setTimeout(() => {
-//           status.textContent = '';
-//         }, 750);
-//       }
-//     );
-//   };
-  
-//   // Restores select box and checkbox state using the preferences
-//   // stored in chrome.storage.
-//   const restoreOptions = () => {
-//     chrome.storage.sync.get(
-//       { favoriteColor: 'red', likesColor: true },
-//       (items) => {
-//         document.getElementById('color').value = items.favoriteColor;
-//         document.getElementById('like').checked = items.likesColor;
-//       }
-//     );
-//   };
-  
-//   document.addEventListener('DOMContentLoaded', restoreOptions);
-//   document.getElementById('save').addEventListener('click', saveOptions);
+import { RequisicoesHTTP } from '../../services/httpbase.service.js';
+import { LoginUser } from '../../class/user-model.js';
+import { LogData } from '../../class/logdata-model.js';
+import { DatabaseService } from '../../services/database.service.js';
+
+const requisicoes = new RequisicoesHTTP();
+const UserData = new LoginUser();
+const databaseService = new DatabaseService();
+
+let logoutButton = document.getElementById("button-logout");
+let AccessToken = localStorage.getItem('AccessToken');
+
+if (logoutButton != null) {
+    logoutButton?.addEventListener("click", async (event) => {
+        // Impede o envio padrão do formulário
+        event.preventDefault();
+        logoutButton.classList.add('is-loading');
+        AccessToken = localStorage.getItem('AccessToken');
+        let response = await requisicoes.post('/auth/signout', {});
+        if (response.Status) {
+            localStorage.removeItem('AccessToken');
+            let logData = new LogData("Usuário deslogado com sucesso e AccessToken removido do Local Storage!", AccessToken)
+            databaseService.insertData(logData)
+        } else {
+            alert(response)
+        }
+        logoutButton.classList.remove('is-loading');  
+        hideCentralStatusPanel();
+    })
+}
+
+//todo: ajustar template do options
+
+function showCentralStatusPanel() {
+    let container = document.getElementById('company-info');
+    container[0].style.display = 'none';
+    container[1].style.display = 'flex';
+}
+
+function hideCentralStatusPanel() {
+    let container = document.getElementById('company-info');
+    container[0].style.display = 'flex';
+    container[1].style.display = 'none';
+}

@@ -50,6 +50,7 @@ if(logoutButton != null){
   logoutButton?.addEventListener("click", async (event) => {
       // Impede o envio padrão do formulário
       event.preventDefault();
+      logoutButton.classList.add('is-loading');
       AccessToken = localStorage.getItem('AccessToken');
       let response = await requisicoes.post('/auth/signout', {});
       if(response.Status){
@@ -61,6 +62,7 @@ if(logoutButton != null){
       }else{
         showMsgError(response)
       }    
+      logoutButton.classList.remove('is-loading');  
   })
 }
 
