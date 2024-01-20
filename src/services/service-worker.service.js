@@ -31,12 +31,12 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   }
 });
 
-chrome.tabs.onActivated.addListener((activeInfo) => {
-  const logData = new LogData('Guia do painel de pedidos ativada e em operação', activeInfo);
-  databaseService.insertData(logData).catch(error => {
-    console.error('Erro durante a ativação da guia:', error);
-  });
-});
+// chrome.tabs.onActivated.addListener((activeInfo) => {
+//   const logData = new LogData('Guia do painel de pedidos ativada e em operação', activeInfo);
+//   databaseService.insertData(logData).catch(error => {
+//     console.error('Erro durante a ativação da guia:', error);
+//   });
+// });
 
 chrome.commands.onCommand.addListener(function (command) {
   if (command === "openOptions") {

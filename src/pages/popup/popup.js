@@ -8,7 +8,6 @@ const UserData = new LoginUser();
 const databaseService = new DatabaseService();
 
 let submitButton = document.getElementById("button-login");
-let logoutButton = document.getElementById("button-logout");
 let AccessToken = localStorage.getItem('AccessToken');
 document.getElementById('errorDiv').style.display = 'none';
 hideMsgError();
@@ -46,25 +45,34 @@ if (submitButton != null) {
   });
 }
 
-if(logoutButton != null){
-  logoutButton?.addEventListener("click", async (event) => {
-      // Impede o envio padrão do formulário
-      event.preventDefault();
-      logoutButton.classList.add('is-loading');
-      AccessToken = localStorage.getItem('AccessToken');
-      let response = await requisicoes.post('/auth/signout', {});
-      if(response.Status){
-        cleanInputs();
-        localStorage.removeItem('AccessToken');
-        let logData = new LogData("Usuário deslogado com sucesso e AccessToken removido do Local Storage!", AccessToken)
-        databaseService.insertData(logData)
-        hideCentralStatusPanel();
-      }else{
-        showMsgError(response)
-      }    
-      logoutButton.classList.remove('is-loading');  
-  })
-}
+// if(logoutButton != null){
+//   logoutButton?.addEventListener("click", async (event) => {
+//       // Impede o envio padrão do formulário
+//       event.preventDefault();
+//       logoutButton.classList.add('is-loading');
+//       AccessToken = localStorage.getItem('AccessToken');
+//       let response = await requisicoes.post('/auth/signout', {});
+//       if(response.Status){
+//         cleanInputs();
+//         localStorage.removeItem('AccessToken');
+//         let logData = new LogData("Usuário deslogado com sucesso e AccessToken removido do Local Storage!", AccessToken)
+//         databaseService.insertData(logData)
+//         hideCentralStatusPanel();
+//       }else{
+//         showMsgError(response)
+//       }    
+//       logoutButton.classList.remove('is-loading');  
+//   })
+// }
+
+// popup.js
+document.addEventListener('DOMContentLoaded', () => {
+  var openOptionsPageButton = document.getElementById('openOptionsPageButton');
+
+  openOptionsPageButton.addEventListener('click', () => {
+    chrome.tabs.create({ 'url': 'src/pages/options/options2.html' });
+  });
+});
 
 function showCentralStatusPanel(){
   let container = document.getElementsByClassName('container');

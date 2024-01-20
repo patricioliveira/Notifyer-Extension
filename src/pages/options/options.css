@@ -1,7 +1,7 @@
 #logo {
-        width: 11rem !important;
-        display: flex !important;
-        margin-top: 10rem;
+    width: 11rem !important;
+    display: flex !important;
+    margin-top: 10rem;
 }
 
 body.is-dark .button.is-primary {
@@ -15,6 +15,7 @@ body.is-dark .button.is-primary {
     border-color: transparent !important;
     color: #f9f9f9 !important;
 }
+
 .control .login{
     display: flex !important;
 }
@@ -26,6 +27,7 @@ body.is-dark .button.is-primary {
 .form-switch.is-primary input:checked+i {
     background-color: #8941FF !important;
 }
+
 body.is-dark .form-switch.is-primary input:checked+i {
     background-color: #8941FF !important;
 }
@@ -40,4 +42,15 @@ body.is-dark .form-switch.is-primary input:checked+i {
 
 .message-body {
     padding: 0.5em 0.5em !important;
+}
+
+*::-webkit-scrollbar {
+    background-color: transparent;
+    width: 12px;
+}
+
+*::-webkit-scrollbar-thumb {
+    border-radius: 99px;
+    background-color: #7072f1 !important;
+    border: 1px solid #fff;
 }
