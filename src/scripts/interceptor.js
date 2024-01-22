@@ -141,7 +141,7 @@ class Notification extends Order {
 
     // Intercepta a função open do XMLHttpRequest para capturar informações
     var originalOpen = window.XMLHttpRequest.prototype.open;
-    window.XMLHttpRequest.prototype.open = function () {
+    window.XMLHttpRequest.prototype.open = function() {
         let metodo = arguments[0].toString();
         let urlRequest = arguments[1].toString();
 
