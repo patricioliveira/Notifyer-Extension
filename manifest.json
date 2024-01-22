@@ -8,7 +8,7 @@
   "host_permissions": [
     "<all_urls>"
   ],
-  "options_page": "/src/pages/options/options2.html",
+  "options_page": "/src/pages/options/options.html",
   "action": {
     "default_popup": "/src/pages/popup/popup.html",
     "default_icon": {
