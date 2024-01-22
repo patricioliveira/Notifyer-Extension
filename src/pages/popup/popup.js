@@ -12,7 +12,7 @@ let AccessToken = localStorage.getItem('AccessToken');
 document.getElementById('errorDiv').style.display = 'none';
 hideMsgError();
 
-if (AccessToken){
+if (AccessToken) {
   showCentralStatusPanel();
 }
 
@@ -27,7 +27,7 @@ if (submitButton != null) {
 
     UserData.verifyUserData(UserData);
 
-    submitButton.classList.add('is-loading');
+    // submitButton.classList.add('is-loading');
     var response = null;
     response = await requisicoes.post('/auth/signin', UserData);
     if(response?.Result){
@@ -41,7 +41,7 @@ if (submitButton != null) {
     }else{
       showMsgError(response)
     }
-    submitButton.classList.remove('is-loading');  
+    // submitButton.classList.remove('is-loading');  
   });
 }
 
@@ -75,15 +75,23 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function showCentralStatusPanel(){
+  let body = document.getElementsByTagName('body');
   let container = document.getElementsByClassName('container');
-  container[0].style.display = 'none';
-  container[1].style.display = 'flex';
+  let auth = document.getElementById('huro-auth');
+
+  body[0].style.setProperty('--height', '13rem');
+  container[0].style.display = 'flex';
+  auth.style.display = 'none';
 }
 
 function hideCentralStatusPanel(){
+  let body = document.getElementsByTagName('body');
   let container = document.getElementsByClassName('container');
-  container[0].style.display = 'flex';
-  container[1].style.display = 'none';
+  let auth = document.getElementById('huro-auth');
+
+  container[0].style.display = 'none';
+  body[0].style.setProperty('--height', '100vh');
+  auth.style.display = 'block';
 }
 
 function showMsgError(msg){

@@ -2,6 +2,8 @@
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="../assets/css/app.css">
+    <link rel="stylesheet" href="../assets/css/main.css">
     <link rel="stylesheet" href="../../../css/bulma.min.css">
     <link rel="stylesheet" href="../../../css/all.min.css">
     <link rel="stylesheet" href="../../../css/principal.css">
@@ -10,46 +12,85 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;500;600&family=Ubuntu:wght@300&display=swap" rel="stylesheet">
 </head>
 <body>
-    <form class="container" id="authForm">
-        <div class="item">
-            <div id="logo">
-                <img src="/images/logo-white.png">
-            </div>
-        </div>
-        <div class="item">
-            <div class="field">
-                <div class="control has-icons-left">
-                  <input id="user" class="input is-medium" type="text" placeholder="EMAIL">
-                  <span class="icon is-small is-left">
-                    <i class="fa-solid fa-at"></i>
-                  </span>
+    <div class="pageloader is-full"></div>
+
+    <div id="huro-auth" class="app-wrapper">
+        <!-- Pageloader -->
+        <div class="auth-wrapper">
+            <!--Page body-->
+            <div class="auth-wrapper-inner is-single">
+                <!--Fake navigation-->
+                <div class="auth-nav">
+                    <div class="left"></div>
+                    <div>
+                        <div id="logo" class="header-item">
+                            <img class="dark-image" src="../../../images/logo(1).png" alt="">
+                            <img class="light-image" src="../../../images/logo-white.png" alt="">
+                        </div>
+                    </div>
+                    <div class="right">
+                        <label class="dark-mode ml-auto">
+                            <input type="checkbox" checked>
+                            <span id="toogle-theme"></span>
+                        </label>
+                    </div>
                 </div>
-                <!-- <p class="help is-success">This username is available</p> -->
-            </div>
-        </div>
-        <div class="item">
-            <div class="field">
-                <div class="control has-icons-left">
-                  <input id="password" class="input is-medium" type="password" placeholder="SENHA">
-                  <span class="icon is-small is-left">
-                    <i class="fa-solid fa-lock"></i>
-                  </span>
+                <!--Single Centered Form-->
+                <div class="single-form-wrap">
+                    <div class="inner-wrap">
+                        <!--Form-->
+                        <div class="form-card">
+                            <form id="authForm">
+                                <div id="signin-form" class="login-form">
+                                    <!-- Input -->
+                                    <div class="field">
+                                        <div class="control has-icon">
+                                            <input id="user" class="input" type="text" placeholder="Email">
+                                            <span class="form-icon">
+                                                <i class="fas fa-at"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <!-- Input -->
+                                    <div class="field">
+                                        <div class="control has-icon">
+                                            <input id="password" class="input" type="password" placeholder="Senha">
+                                            <span class="form-icon">
+                                                <i class="fas fa-lock"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="setting-item">
+                                        <label class="form-switch is-primary">
+                                            <input type="checkbox" class="is-switch" id="busy-mode-toggle">
+                                            <i></i>
+                                        </label>
+                                        <div class="setting-meta">
+                                            <span>Lembrar-me</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Submit -->
+                                    <div class="control login">
+                                        <button id="button-login" value="Submit" form="authForm" class="button h-button is-primary is-bold is-fullwidth is-raised">
+                                            <span>AUTENTICAR</span>
+                                            <span class="icon is-small">
+                                                <i class="fas fa-sign-in-alt fa-lg"></i>
+                                            </span>
+                                        </button>
+                                    </div>
+                                    <article id="errorDiv" class="message is-danger">
+                                        <div id="errorMsg" class="message-body"></div>
+                                    </article>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                <!-- <p class="help is-success">This username is available</p> -->
             </div>
-        </div>
-        <div class="item buttons">
-            <button id="button-login" value="Submit" form="authForm" class="button is-info is-light is-medium">
-                <span>AUTENTICAR</span> 
-                <span class="icon is-small"> 
-                    <i class="fa-solid fa-right-to-bracket"></i>
-                </span> 
-            </button>
-        </div>
-        <article id="errorDiv" class="message is-danger">
-            <div id="errorMsg" class="message-body"></div>
-        </article>
-    </form>
+        </div>            
+    </div>
 
     <form class="container" id="painelForm">
         <div class="item">
@@ -70,5 +111,23 @@
 
     <script type="module" src="popup.js"></script>
     <script src="../../../libs/all.min.js"></script>
+    <!--Huro Scripts-->
+    <!-- Concatenated plugins -->
+    <script src="../assets/js/app.js"></script>
+    
+    <!-- Huro js -->
+    <script src="../assets/js/functions.js"></script>
+    <script src="../assets/js/main.js" async></script>
+    <script src="../assets/js/components.js" async></script>
+    <script src="../assets/js/popover.js" async></script>
+    <script src="../assets/js/widgets.js" async></script>
+    
+    
+    <!-- Additional Features -->
+    <script src="../assets/js/touch.js" async></script>
+    
+    <!-- Huro js -->
+    <script src="../assets/js/functions.js"></script>
+    <script src="../assets/js/auth.js"></script>
 </body>
 </html>

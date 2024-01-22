@@ -12,11 +12,15 @@ let logoutButton = document.getElementById("button-logout");
 let AccessToken = localStorage.getItem('AccessToken');
 
 document.getElementById('errorDiv').style.display = 'none';
-hideMsgError();
 
-if (AccessToken) {
-    showCentralStatusPanel();
-}
+document.addEventListener('DOMContentLoaded', () => { 
+    let AccessToken = localStorage.getItem('AccessToken');
+    AccessToken ? showCentralStatusPanel() : hideCentralStatusPanel();
+    changeMode(true);
+    hideMsgError(); 
+});
+
+document.getElementById('toogle-theme').addEventListener('click', () => { changeMode(false) });
 
 if (submitButton != null) {
     submitButton?.addEventListener("click", async (event) => {
@@ -27,9 +31,11 @@ if (submitButton != null) {
         UserData.Email = document.getElementById('user').value;
         UserData.Password = document.getElementById('password').value;
 
-        UserData.verifyUserData(UserData);
+        if(UserData.verifyUserData(UserData) == 'empty'){
+            showMsgError('Preencha todos os campos para efetuar a autenticação!')
+            return
+        }
 
-        // submitButton.classList.add('is-loading');
         var response = null;
         response = await requisicoes.post('/auth/signin', UserData);
         if (response?.Result) {
@@ -43,7 +49,6 @@ if (submitButton != null) {
         } else {
             showMsgError(response)
         }
-        // submitButton.classList.remove('is-loading');
     });
 }
 
@@ -51,7 +56,6 @@ if (logoutButton != null) {
     logoutButton?.addEventListener("click", async (event) => {
         // Impede o envio padrão do formulário
         event.preventDefault();
-        // logoutButton.classList.add('is-loading');
         AccessToken = localStorage.getItem('AccessToken');
         let response = await requisicoes.post('/auth/signout', {});
         if (response.Status) {
@@ -59,11 +63,32 @@ if (logoutButton != null) {
             let logData = new LogData("Usuário deslogado com sucesso e AccessToken removido do Local Storage!", AccessToken)
             databaseService.insertData(logData)
         } else {
-            alert(response)
+            localStorage.removeItem('AccessToken');
+            alert(response);
         }
-        // logoutButton.classList.remove('is-loading');
         hideCentralStatusPanel();
     })
+}
+
+function changeMode(init) {
+    let theme = localStorage.getItem('theme');
+    if (init === true) {
+        if (theme === 'dark') {
+            let newColor = '#2d2d31';
+            document.documentElement.style.setProperty('--scrollbar-thumb-color', newColor);
+        } else if (theme === 'light') {
+            let newColor = '#f5f6fa';
+            document.documentElement.style.setProperty('--scrollbar-thumb-color', newColor);
+        }
+    } else if (init === false) {
+        if (theme === 'dark') {
+            let newColor = '#f5f6fa';
+            document.documentElement.style.setProperty('--scrollbar-thumb-color', newColor);
+        } else if (theme === 'light') {
+            let newColor = '#2d2d31';
+            document.documentElement.style.setProperty('--scrollbar-thumb-color', newColor);
+        }
+    }
 }
 
 function showMsgError(msg) {
@@ -84,6 +109,7 @@ function hideMsgError() {
 }
 
 function showCentralStatusPanel() {
+    let body = document.getElementsByTagName('body');
     let app = document.getElementById('huro-app');
     let auth = document.getElementById('huro-auth');
 
@@ -92,10 +118,12 @@ function showCentralStatusPanel() {
 }
 
 function hideCentralStatusPanel() {
+    let body = document.getElementsByTagName('body');
     let app = document.getElementById('huro-app');
     let auth = document.getElementById('huro-auth');
 
     auth.style.display = 'block';
+    body[0].style.overflowY = 'hidden';
     app.style.display = 'none';
 }
 

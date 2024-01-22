@@ -21,8 +21,10 @@ export class LoginUser {
     verifyUserData(loginData) {
         // Lógica de verificação dos dados do usuário aqui.
         // Lança uma exceção se os dados não são válidos.
-        if (loginData.Email == '' || loginData.Password == ''){
-            throw new Exception("Inserir dados para fazer o login");
+        if ((loginData.Email == '' || loginData.Password == '') || (loginData.Email == '' && loginData.Password == '')){
+           return 'empty';
+        } else{
+            return 'accepted';
         }
     }
 }

@@ -8,6 +8,7 @@ body.is-dark .button.is-primary {
     border-color: transparent !important;
     background: #8941FF !important;
     color: #E6D7FF !important;
+    overflow-y: hidden !important;
 }
 
 .button.is-primary {
@@ -36,8 +37,37 @@ body.is-dark .form-switch.is-primary input:checked+i {
     display: none;
 }
 
+.form-card {
+    margin-top: 10rem;
+}
+
+.auth-wrapper-inner .single-form-wrap {
+    min-height: 100vh !important;
+}
+
+body.is-dark .webapp-navbar.is-colored .webapp-navbar-inner .center .centered-links .centered-link.is-active:hover {
+    background: #671cc9 !important;
+}
+
+body.is-dark .webapp-navbar.is-colored .webapp-navbar-inner .center .centered-links .centered-link:hover{
+    background: #4b1593 !important;
+}
+
+body.is-dark .webapp-navbar.is-colored {
+    background: #671cc9 !important;
+}
+
+.webapp-navbar.is-colored .webapp-navbar-inner .center .centered-links .centered-link.is-active {
+    background: #4b1593 !important;
+    border-color: #7523e0 !important;
+}
+
+.webapp-navbar.is-colored {
+    border-bottom-color: var(--scrollbar-thumb-color) !important;
+}
+
 #errorDiv {
-    width: calc(100vw - 6.7rem) !important;
+    margin-top: 2rem;
 }
 
 .message-body {
@@ -45,12 +75,12 @@ body.is-dark .form-switch.is-primary input:checked+i {
 }
 
 *::-webkit-scrollbar {
-    background-color: transparent;
+    background-color: var(--scrollbar-thumb-color) !important;
     width: 12px;
 }
 
 *::-webkit-scrollbar-thumb {
     border-radius: 99px;
-    background-color: #7072f1 !important;
-    border: 1px solid #fff;
+    background-color: #4b1593 !important;
+    border: 1px solid #818192;
 }
