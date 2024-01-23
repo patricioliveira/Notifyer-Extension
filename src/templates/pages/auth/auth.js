@@ -64,7 +64,8 @@ async function gerarTokenSession() {
 
 function reloadPage() {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        const optionsPageURL = 'chrome-extension://fkghmnegnhgpomjapkggicaoplpelcdf/src/templates/app/app.html';
+        let extensionId = chrome.runtime.id;
+        let optionsPageURL = `chrome-extension://${extensionId}/src/templates/app/app.html`;
         chrome.tabs.update(tabs[0].id, { url: optionsPageURL });
     });
 }
