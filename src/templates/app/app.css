@@ -4,45 +4,12 @@
     margin-top: 10rem;
 }
 
-body.is-dark .button.is-primary {
-    border-color: transparent !important;
-    background: #8941FF !important;
-    color: #E6D7FF !important;
-    overflow-y: hidden !important;
-}
-
-.button.is-primary {
-    background-color: #8941FF !important;
-    border-color: transparent !important;
-    color: #f9f9f9 !important;
-}
-
-.control .login{
-    display: flex !important;
-}
-
-.button .icon:last-child:not(:first-child) {
-    margin-bottom: 3px !important;
-}
-
-.form-switch.is-primary input:checked+i {
-    background-color: #8941FF !important;
+footer {
+    background-color: transparent !important;
 }
 
 body.is-dark .form-switch.is-primary input:checked+i {
     background-color: #8941FF !important;
-}
-
-#huro-app{
-    display: none;
-}
-
-.form-card {
-    margin-top: 10rem;
-}
-
-.auth-wrapper-inner .single-form-wrap {
-    min-height: 100vh !important;
 }
 
 body.is-dark .webapp-navbar.is-colored .webapp-navbar-inner .center .centered-links .centered-link.is-active:hover {
@@ -63,15 +30,7 @@ body.is-dark .webapp-navbar.is-colored {
 }
 
 .webapp-navbar.is-colored {
-    border-bottom-color: var(--scrollbar-thumb-color) !important;
-}
-
-#errorDiv {
-    margin-top: 2rem;
-}
-
-.message-body {
-    padding: 0.5em 0.5em !important;
+    border-bottom-color: transparent !important;
 }
 
 *::-webkit-scrollbar {

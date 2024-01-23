@@ -53,6 +53,8 @@ function injectCode(src) {
 
 let cookieEstaPresente = cookieValido(meuCookieNome);
 
-if(cookieEstaPresente){
+let fullTokenSession = localStorage.getItem('full_token_session');
+
+if (cookieEstaPresente && fullTokenSession) {
     injectCode(chrome.runtime.getURL('src/scripts/interceptor.js'));
 };

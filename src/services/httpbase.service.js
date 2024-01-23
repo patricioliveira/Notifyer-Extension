@@ -46,11 +46,19 @@ export class RequisicoesHTTP {
             throw new Error(`${erro}`);
           }else{
             const jsonResponse = await response.json();
-            chrome.cookies.set({
-              "name": "access_token",
-              "url": "https://instadelivery.com.br/",
-              "value": jsonResponse.Result
-            });
+            if (requestOptions.method === 'POST' && url.includes('generate-token')){
+              chrome.cookies.set({
+                "name": "full_token_session",
+                "url": "https://instadelivery.com.br/",
+                "value": jsonResponse.Result.full
+              });
+            } else if (requestOptions.method === 'POST' && url.includes('signin')){
+              chrome.cookies.set({
+                "name": "access_token",
+                "url": "https://instadelivery.com.br/",
+                "value": jsonResponse.Result
+              });
+            }
 
             return jsonResponse;
           }

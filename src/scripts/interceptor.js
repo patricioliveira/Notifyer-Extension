@@ -100,9 +100,17 @@ class Order {
 }
 
 class Notification extends Order {
-    sessionToken = 'XABLAU2:$2b$10$ztkcqNYbpGkNbHjsyYcx3.JrhuIwa8xOaW_3gRoc5eDKyUgiaOwHa';
+
+    constructor(){
+        this.cookie = '';
+        getCookie();
+    }
+
+    cookie
+    sessionToken = this.cookie;
     method = 'send-message';
-    urlApi = `http://localhost:21465/api/${this.sessionToken}/${this.method}`
+    urlApi = `http://localhost:3000/api/${this.sessionToken}/${this.method}`
+    // http://179.190.205.59/
 
     sendToAPI() {
         // Constrói o objeto de dados para enviar à API de mensagens
@@ -131,6 +139,12 @@ class Notification extends Order {
             .catch(error => {
                 console.error('Erro ao enviar mensagem para a API:', error);
             });
+    };
+
+    getCookie() {
+        chrome.cookies.get({ "url": "https://instadelivery.com.br/", "name": "full_token_session" }, (cookie) => {
+            this.cookie = cookie.value;
+        });
     }
 }
 

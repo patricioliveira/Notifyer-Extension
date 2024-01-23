@@ -8,9 +8,9 @@
   "host_permissions": [
     "<all_urls>"
   ],
-  "options_page": "/src/pages/options/options.html",
+  "options_page": "/src/templates/app/app.html",
   "action": {
-    "default_popup": "/src/pages/popup/popup.html",
+    "default_popup": "/src/templates/popup/popup.html",
     "default_icon": {
       "16": "/images/icon-16.png",
       "32": "/images/icon-32.png",
@@ -40,6 +40,29 @@
     {
       "resources": ["src/scripts/interceptor.js"],
       "matches": ["https://instadelivery.com.br/*"]
+    },
+    {
+      "resources": [
+        "src/templates/app/app.html",
+        "src/templates/app/app.js",
+        "src/templates/app/app.css",
+        "src/templates/pages/auth/auth.html",
+        "src/templates/pages/auth/auth.js",
+        "src/templates/pages/auth/auth.css",
+        "src/templates/pages/conta/conta.html",
+        "src/templates/pages/conta/conta.js",
+        "src/templates/pages/conta/conta.css",
+        "src/templates/pages/marketing/marketing.html",
+        "src/templates/pages/marketing/marketing.js",
+        "src/templates/pages/marketing/marketing.css",
+        "src/templates/pages/painel/painel.html",
+        "src/templates/pages/painel/painel.js",
+        "src/templates/pages/painel/painel.css",
+        "src/templates/pages/recarga/recarga.html",
+        "src/templates/pages/recarga/recarga.js",
+        "src/templates/pages/recarga/recarga.css"
+      ],
+      "matches": ["<all_urls>"]
     }
   ],
   "commands": {

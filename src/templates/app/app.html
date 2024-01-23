@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <!-- Required meta tags  -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title> Notifyer </title>
+    <link rel="icon" type="image/png" href="../../../images/icon-128.png" />
+
+    <!--Core CSS -->
+    <link rel="stylesheet" href="../assets/css/app.css">
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="app.css">
+
+    <!-- Fonts -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="pageloader is-full"></div>
+
+    <div id="huro-nav" class="app-wrapper">
+        <!-- Pageloader -->
+        <div class="app-overlay"></div>
+        <!--Webapp navbar colored-->
+        <div class="webapp-navbar is-colored">
+            <div class="webapp-navbar-inner">
+                <div class="left">
+                    <a href="/" class="brand">
+                        <img class="light-image" src="../../../images/icon-128.png" alt="" />
+                        <img class="dark-image" src="../../../images/icon-128.png" alt="" />
+                    </a>
+                    <div class="separator"></div>
+                    <div class="dropdown project-dropdown dropdown-trigger is-spaced">
+                        <div class="h-avatar is-small">
+                            <span class="avatar is-fake is-h-green">
+                                <span>C</span>
+                            </span>
+                        </div>
+                        <span class="status-indicator"></span>
+                    </div>
+                    <h1 id="webapp-page-title" class="title is-5"></h1>
+                </div>
+                <div class="center">
+                    <div id="webapp-navbar-menu" class="centered-links">
+                        <a id="painel-navbar-menu" class="centered-link centered-link-toggle"
+                            data-menu-id="layouts-webapp-menu">
+                            <i data-feather="activity"></i>
+                            <span>Painel</span>
+                        </a>
+                        <a id="recarga-navbar-menu" class="centered-link centered-link-toggle"
+                            data-menu-id="dashboards-webapp-menu">
+                            <i data-feather="credit-card"></i>
+                            <span>Recargas</span>
+                        </a>
+                        <a id="marketing-navbar-menu" class="centered-link centered-link-toggle"
+                            data-menu-id="elements-webapp-menu">
+                            <i data-feather="message-square"></i>
+                            <span>Marketing</span>
+                        </a>
+                        <a id="conta-navbar-menu" class="centered-link centered-link-toggle"
+                            data-menu-id="components-webapp-menu">
+                            <i data-feather="user"></i>
+                            <span>Conta</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="toolbar ml-auto">
+        
+                        <div class="toolbar-link">
+                            <label class="dark-mode ml-auto">
+                                <input type="checkbox" checked>
+                                <span></span>
+                            </label>
+                        </div>
+        
+                        <div class="toolbar-notifications is-hidden-mobile">
+                            <div class="dropdown is-spaced is-dots is-right dropdown-trigger">
+                                <div class="is-trigger" aria-haspopup="true">
+                                    <i data-feather="bell"></i>
+                                    <span class="new-indicator pulsate"></span>
+                                </div>
+                                <div class="dropdown-menu" role="menu">
+                                    <div class="dropdown-content">
+                                        <div class="heading">
+                                            <div class="heading-left">
+                                                <h6 class="heading-title">Notifications</h6>
+                                            </div>
+                                            <div class="heading-right">
+                                                <a class="notification-link" href="/admin-profile-notifications.html">See
+                                                    all</a>
+                                            </div>
+                                        </div>
+                                        <ul class="notification-list">
+                                            <li>
+                                                <a class="notification-item">
+                                                    <div class="img-left">
+                                                        <img class="user-photo" alt="" src="https://via.placeholder.com/150x150"
+                                                            data-demo-src="assets/img/avatars/photos/7.jpg" />
+                                                    </div>
+                                                    <div class="user-content">
+                                                        <p class="user-info"><span class="name">Alice C.</span> left a comment.
+                                                        </p>
+                                                        <p class="time">1 hour ago</p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="notification-item">
+                                                    <div class="img-left">
+                                                        <img class="user-photo" alt="" src="https://via.placeholder.com/150x150"
+                                                            data-demo-src="assets/img/avatars/photos/12.jpg" />
+                                                    </div>
+                                                    <div class="user-content">
+                                                        <p class="user-info"><span class="name">Joshua S.</span> uploaded a
+                                                            file.</p>
+                                                        <p class="time">2 hours ago</p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="notification-item">
+                                                    <div class="img-left">
+                                                        <img class="user-photo" alt="" src="https://via.placeholder.com/150x150"
+                                                            data-demo-src="assets/img/avatars/photos/13.jpg" />
+                                                    </div>
+                                                    <div class="user-content">
+                                                        <p class="user-info"><span class="name">Tara S.</span> sent you a
+                                                            message.</p>
+                                                        <p class="time">2 hours ago</p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="notification-item">
+                                                    <div class="img-left">
+                                                        <img class="user-photo" alt="" src="https://via.placeholder.com/150x150"
+                                                            data-demo-src="assets/img/avatars/photos/25.jpg" />
+                                                    </div>
+                                                    <div class="user-content">
+                                                        <p class="user-info"><span class="name">Melany W.</span> left a comment.
+                                                        </p>
+                                                        <p class="time">3 hours ago</p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+        
+        
+                        <a class="toolbar-link right-panel-trigger" data-panel="activity-panel">
+                            <i data-feather="grid"></i>
+                        </a>
+
+                        <a id="button-logout" class="toolbar-link right-panel-trigger" data-panel="activity-panel">
+                            <i data-feather="log-out"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Content Wrapper -->
+        <div id="app-onboarding" class="view-wrapper is-webapp" data-page-title="Ceará Lanches">
+        </div>
+
+    </div>
+
+    <!-- Page Content -->
+    <div id="app-container"></div>
+    
+    <footer id="footer">
+        <div class="content has-text-centered">
+            <p>&copy; 2023 Notifyer Extension. Todos os direitos reservados. Desenvolvido por <a
+                    href="https://github.com/paulosmdo" target="_blank">paulosmdo</a> e <a
+                    href="https://github.com/sucodefrutas" target="_blank">sucodefrutas</a>.</p>
+        </div>
+    </footer>
+    
+    <!--Huro Scripts-->
+    <!-- Concatenated plugins -->
+    <script src="../assets/js/app.js"></script>
+    <script type="module" src="app.js"></script>
+    
+    <!-- Huro js -->
+    <script src="../assets/js/functions.js"></script>
+    <script src="../assets/js/main.js" async></script>
+    <script src="../assets/js/components.js" async></script>
+    <script src="../assets/js/popover.js" async></script>
+    <script src="../assets/js/widgets.js" async></script>
+    
+    
+    <!-- Additional Features -->
+    <script src="../assets/js/touch.js" async></script>
+
+    <!-- Huro js -->
+    <script src="../assets/js/functions.js" async></script>
+    <script src="../assets/js/auth.js"></script>
+</body>
+
+</html>

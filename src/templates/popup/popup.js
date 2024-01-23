@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
   var openOptionsPageButton = document.getElementById('openOptionsPageButton');
 
   openOptionsPageButton.addEventListener('click', () => {
-    chrome.tabs.create({ 'url': 'src/pages/options/options2.html' });
+    chrome.tabs.create({ 'url': 'src/templates/app/app.html' });
   });
 });
 

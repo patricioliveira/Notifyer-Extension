@@ -1,0 +1,85 @@
+<div id="huro-auth" class="app-wrapper">
+    <!-- Pageloader -->
+    <div class="auth-wrapper">
+        <!--Page body-->
+        <div class="auth-wrapper-inner is-single">
+            <!--Fake navigation-->
+            <div class="auth-nav">
+                <div class="left"></div>
+                <div>
+                    <div id="logo" class="header-item">
+                        <img class="dark-image" src="../../../images/logo(1).png" alt="">
+                        <img class="light-image" src="../../../images/logo-white.png" alt="">
+                    </div>
+                </div>
+                <div class="right">
+                    <label class="dark-mode ml-auto">
+                        <input type="checkbox" checked>
+                        <span id="toogle-theme"></span>
+                    </label>
+                </div>
+            </div>
+            <!--Single Centered Form-->
+            <div class="single-form-wrap">
+                <div class="inner-wrap">
+                    <!--Form-->
+                    <div class="form-card">
+                        <form id="authForm">
+                            <div id="signin-form" class="login-form">
+                                <!-- Input -->
+                                <div class="field">
+                                    <div class="control has-icon">
+                                        <input id="user" class="input" type="text" placeholder="Email">
+                                        <span class="form-icon">
+                                            <i class="fas fa-at"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <!-- Input -->
+                                <div class="field">
+                                    <div class="control has-icon">
+                                        <input id="password" class="input" type="password" placeholder="Senha">
+                                        <span class="form-icon">
+                                            <i class="fas fa-lock"></i>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="setting-item">
+                                    <label class="form-switch is-primary">
+                                        <input type="checkbox" class="is-switch" id="busy-mode-toggle">
+                                        <i></i>
+                                    </label>
+                                    <div class="setting-meta">
+                                        <span>Lembrar-me</span>
+                                    </div>
+                                </div>
+
+                                <!-- Submit -->
+                                <div class="control login">
+                                    <button id="button-login" value="Submit" form="authForm"
+                                        class="button h-button is-primary is-bold is-fullwidth is-raised">
+                                        <span>AUTENTICAR</span>
+                                        <span class="icon is-small">
+                                            <i class="fas fa-sign-in-alt fa-lg"></i>
+                                        </span>
+                                    </button>
+                                </div>
+                                <article id="errorDiv" class="message is-danger">
+                                    <div id="errorMsg" class="message-body"></div>
+                                </article>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <footer id="footer">
+                <div class="content has-text-centered">
+                    <p>&copy; 2023 Notifyer Extension. Todos os direitos reservados. Desenvolvido por <a
+                            href="https://github.com/paulosmdo" target="_blank">paulosmdo</a> e <a
+                            href="https://github.com/sucodefrutas" target="_blank">sucodefrutas</a>.</p>
+                </div>
+            </footer>
+        </div>
+    </div>
+</div>

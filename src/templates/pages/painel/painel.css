@@ -1,0 +1,10 @@
+.view-wrapper{
+    min-height: 0 !important;
+    padding-top: 18px !important;
+}
+
+.page-content-inner {
+    min-height: 70vh !important;
+    margin-bottom: 8rem !important;
+    margin-top: 20px !important;
+}

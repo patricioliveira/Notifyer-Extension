@@ -14,7 +14,7 @@ O projeto consiste em uma extensão do Chrome desenvolvida para facilitar a comu
   - `libs/`: Bibliotecas externas.
   - `src/`: Código-fonte da extensão.
     - `class/`: Classes JavaScript.
-    - `pages/`: Páginas HTML específicas.
+    - `templates/`: Páginas HTML específicas.
     - `scripts/`: Scripts JavaScript.
   - `manifest.json`: Configuração da extensão.
   - `README.md`: Informações restritas aos desenvolvedores.

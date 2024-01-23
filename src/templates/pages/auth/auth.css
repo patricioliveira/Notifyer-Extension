@@ -1,0 +1,40 @@
+#errorDiv {
+    margin-top: 2rem;
+}
+
+.message-body {
+    padding: 0.5em 0.5em !important;
+}
+
+body.is-dark .button.is-primary {
+    border-color: transparent !important;
+    background: #8941FF !important;
+    color: #E6D7FF !important;
+    overflow-y: hidden !important;
+}
+
+.button.is-primary {
+    background-color: #8941FF !important;
+    border-color: transparent !important;
+    color: #f9f9f9 !important;
+}
+
+.control .login {
+    display: flex !important;
+}
+
+.button .icon:last-child:not(:first-child) {
+    margin-bottom: 3px !important;
+}
+
+.form-switch.is-primary input:checked+i {
+    background-color: #8941FF !important;
+}
+
+.form-card {
+    margin-top: 10rem;
+}
+
+.auth-wrapper-inner .single-form-wrap {
+    min-height: 95vh !important;
+}
