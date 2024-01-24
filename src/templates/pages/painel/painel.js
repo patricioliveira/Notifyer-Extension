@@ -44,7 +44,7 @@ if (buttonGetTokenSession != null) {
                     let logData1 = new LogData("QR code gerado com sucesso", responseStartSession);
                     databaseService.insertData(logData1);
                     exibirImagemBase64(responseStartSession?.Result.qrcode);
-                    localStorage.setItem("isConnected", 'true');
+                    await verifyConnectionStatus();
                 } else {
                     let logError = new LogData("Houve algum problema ao iniciar a sessão", responseStartSession);
                     databaseService.insertData(logError);
@@ -60,7 +60,7 @@ if (buttonGetTokenSession != null) {
 
 async function repeatStartSession(param) {
     try {
-        const responseStartSession = await requisicoes.post('/session/start-session', {});
+        const responseStartSession = await requisicoes.get('/session/status-session');
 
         if (responseStartSession?.Result?.status == 'success') {
             let logData = new LogData("Sessão iniciada com sucesso", responseStartSession);
@@ -87,12 +87,28 @@ async function repeatStartSession(param) {
             let logData1 = new LogData("QR code gerado com sucesso", responseStartSession);
             databaseService.insertData(logData1);
             exibirImagemBase64(responseStartSession?.Result.qrcode);
-            localStorage.setItem("isConnected", 'true');
+            verifyConnectionStatus();
         } else {
             let logError = new LogData("Houve algum problema ao iniciar a sessão", response);
             databaseService.insertData(logError);
             localStorage.setItem("isConnected", 'false');
             console.error(response);
+        }
+    } catch (error) {
+        console.error('Erro:', error);
+    }
+}
+
+async function verifyConnectionStatus (){
+    try {
+        const connectionStatus = await requisicoes.get('/session/check-connection-session');
+        if (connectionStatus?.Result.status == true && connectionStatus?.Result.message == "Connected"){
+            console.log(connectionStatus)
+            localStorage.setItem("isConnected", 'true');
+        } else if (connectionStatus?.Result.status == false && connectionStatus?.Result.message == "Disconnected"){
+            localStorage.setItem("isConnected", 'false');
+            console.log(connectionStatus)
+            await verifyConnectionStatus();
         }
     } catch (error) {
         console.error('Erro:', error);
