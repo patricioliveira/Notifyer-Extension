@@ -37,6 +37,7 @@ if (submitButton != null) {
       userData.Token = response.Result
       localStorage.setItem("AccessToken", userData.Token)
       let logData = new LogData("Login autenticado com sucesso", userData)
+      await requisicoes.post('/session/generate-token', {});
       databaseService.insertData(logData)
     }else{
       showMsgError(response)

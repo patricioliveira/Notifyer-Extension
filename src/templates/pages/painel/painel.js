@@ -15,9 +15,9 @@ if (buttonGetTokenSession != null) {
         let full_token_session = localStorage.getItem('full_token_session');
 
         // todo: modificar para startar a sessão e em seguinda ficar checkando o status dela ao inves de ficar fazer várias requisições de iniciar sessão
-        if (AccessToken && full_token_session) {
+        if (AccessToken) {
             try {
-                const responseStartSession = await requisicoes.post('/session/start-session', full_token_session);
+                const responseStartSession = await requisicoes.post('/session/start-session', {});
 
                 if (responseStartSession?.Result?.status == 'success') {
                     let logData = new LogData("Sessão iniciada com sucesso", responseStartSession);
@@ -60,7 +60,7 @@ if (buttonGetTokenSession != null) {
 
 async function repeatStartSession(param) {
     try {
-        const responseStartSession = await requisicoes.post('/session/start-session', param);
+        const responseStartSession = await requisicoes.post('/session/start-session', {});
 
         if (responseStartSession?.Result?.status == 'success') {
             let logData = new LogData("Sessão iniciada com sucesso", responseStartSession);
