@@ -101,16 +101,15 @@ class Order {
 
 class Notification extends Order {
 
-    constructor(){
-        this.cookie = '';
-        getCookie();
+    constructor(data) {
+        super(data);
+        this.cookie = this.getCookie();
+        this.sessionToken = this.cookie;
+        this.method = 'send-message';
+        // this.urlApi = `http://localhost:3000/api/messages/${this.sessionToken}/${this.method}`;
+        this.urlApi = `http://localhost:3000/api/messages/${this.method}`;
     }
 
-    cookie
-    sessionToken = this.cookie;
-    method = 'send-message';
-    urlApi = `http://localhost:3000/api/${this.sessionToken}/${this.method}`
-    // http://179.190.205.59/
 
     sendToAPI() {
         // Constrói o objeto de dados para enviar à API de mensagens
@@ -121,11 +120,27 @@ class Notification extends Order {
             message: this.convertToWhatsAppFormat(this.messages.wpp_message),
         };
 
+        var myHeaders = new Headers();
+        myHeaders.append("Accept", "application/json");
+        myHeaders.append("Accept-Language", "pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7");
+        myHeaders.append("Connection", "keep-alive");
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Sec-Fetch-Dest", "empty");
+        myHeaders.append("Sec-Fetch-Mode", "cors");
+        myHeaders.append("Sec-Fetch-Site", "same-site");
+        myHeaders.append("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36");
+        myHeaders.append("sec-ch-ua", "\"Chromium\";v=\"116\", \"Not)A;Brand\";v=\"24\", \"Google Chrome\";v=\"116\"");
+        myHeaders.append("sec-ch-ua-mobile", "?0");
+        myHeaders.append("sec-ch-ua-platform", "\"Windows\"");
+        if (this.cookie)
+            myHeaders.append("Cookie", this.cookie);
+
         // Configuração para a requisição POST
         var requestOptions = {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: myHeaders,
             body: JSON.stringify(messageData),
+            redirect: 'follow'
         };
 
         // Realiza a requisição para a API de mensagens
@@ -142,9 +157,15 @@ class Notification extends Order {
     };
 
     getCookie() {
-        chrome.cookies.get({ "url": "https://instadelivery.com.br/", "name": "full_token_session" }, (cookie) => {
-            this.cookie = cookie.value;
-        });
+        // Use um método síncrono para obter o cookie
+        const cookieName = 'access_token='
+        const cookie = document.cookie
+            .split('; ')
+            .find(row => row.startsWith(`${cookieName}`));
+
+        // return cookie ? cookie.split('=')[1] : '';
+        return cookie ? cookie : '';
+
     }
 }
 
