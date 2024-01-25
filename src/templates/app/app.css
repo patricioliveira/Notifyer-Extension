@@ -4,8 +4,21 @@
     margin-top: 10rem;
 }
 
+#app-container {
+    margin-bottom: 5vh !important;
+}
+
+.view-wrapper {
+    min-height: 0% !important;
+}
+
+.view-wrapper.is-webapp {
+    padding-top: 0 !important;
+}
+
 footer {
     background-color: transparent !important;
+    margin-top: 8rem !important;
 }
 
 body.is-dark .form-switch.is-primary input:checked+i {

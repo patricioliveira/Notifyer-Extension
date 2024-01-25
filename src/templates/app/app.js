@@ -15,30 +15,30 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function onClickNavButtons() {
-    const navButtonPainel = document.getElementById('painel-navbar-menu');
+    let navButtonPainel = document.getElementById('painel-navbar-menu');
     navButtonPainel?.addEventListener("click", async (event) => {
         event.preventDefault(); 
         navigateTo('painel')
     });
-    const navButtonRecarga = document.getElementById('recarga-navbar-menu');
+    let navButtonRecarga = document.getElementById('recarga-navbar-menu');
     navButtonRecarga?.addEventListener("click", async (event) => {
         event.preventDefault();
         navigateTo('recarga')
     });
-    const navButtonMarketing = document.getElementById('marketing-navbar-menu');
+    let navButtonMarketing = document.getElementById('marketing-navbar-menu');
     navButtonMarketing?.addEventListener("click", async (event) => {
         event.preventDefault();
         navigateTo('marketing')
     });
-    const navButtonConta = document.getElementById('conta-navbar-menu');
+    let navButtonConta = document.getElementById('conta-navbar-menu');
     navButtonConta?.addEventListener("click", async (event) => {
         event.preventDefault();
         navigateTo('conta');
     });
 };
 
-function navigateTo(route) {
-    const container = document.getElementById('app-container');
+export function navigateTo(route) {
+    let container = document.getElementById('app-container');
 
     switch (route) {
         case 'home':
@@ -58,17 +58,20 @@ function navigateTo(route) {
         case 'marketing':
                 const marketing = document.getElementById("marketing-navbar-menu");
                 marketing.classList.add("is-active");
-            loadSPA('../pages/marketing/marketing.html', '../pages/marketing/marketing.css', '../pages/marketing/marketing.js', container);
+            // loadSPA('../pages/marketing/marketing.html', '../pages/marketing/marketing.css', '../pages/marketing/marketing.js', container);
+            loadSPA('../pages/manutenção/manutencao.html', '../pages/manutenção/manutencao.css', '../pages/manutenção/manutencao.js', container);
             break;
         case 'conta':
                 const conta = document.getElementById("conta-navbar-menu");
                 conta.classList.add("is-active");
-            loadSPA('../pages/conta/conta.html', '../pages/conta/conta.css', '../pages/conta/conta.js', container);
+            // loadSPA('../pages/conta/conta.html', '../pages/conta/conta.css', '../pages/conta/conta.js', container);
+            loadSPA('../pages/manutenção/manutencao.html', '../pages/manutenção/manutencao.css', '../pages/manutenção/manutencao.js', container);
             break;
         case 'recarga':
                 const recarga = document.getElementById("recarga-navbar-menu");
                 recarga.classList.add("is-active");
-            loadSPA('../pages/recarga/recarga.html', '../pages/recarga/recarga.css', '../pages/recarga/recarga.js', container);
+            // loadSPA('../pages/recarga/recarga.html', '../pages/recarga/recarga.css', '../pages/recarga/recarga.js', container);
+            loadSPA('../pages/manutenção/manutencao.html', '../pages/manutenção/manutencao.css', '../pages/manutenção/manutencao.js', container);
             break;
         case 'auth':
         default:
@@ -78,9 +81,24 @@ function navigateTo(route) {
     }
 }
 
-function loadSPA(htmlFile, cssFile, jsFile, container) {
+export function loadSPA(htmlFile, cssFile, jsFile, container) {
     // Use AJAX ou outra forma de carregar o conteúdo do arquivo HTML
     // e adicionar ao container.
+    
+    // Remova o HTML anterior
+    container.innerHTML = '';
+
+    // Remova os scripts CSS e JS antigos
+    const oldStyle = document.head.querySelector('style[data-spa]');
+    const oldScript = document.head.querySelector('script[data-spa]');
+
+    if (oldStyle) {
+        document.head.removeChild(oldStyle);
+    }
+
+    if (oldScript) {
+        document.head.removeChild(oldScript);
+    }
 
     Promise.all([
         fetch(htmlFile).then(response => response.text()),
@@ -93,11 +111,13 @@ function loadSPA(htmlFile, cssFile, jsFile, container) {
             const script = document.createElement('script');
             script.src = jsFile;
             script.type = 'module';
+            script.setAttribute('data-spa', 'true'); // Adicione um atributo para identificar o script
             document.head.appendChild(script);
 
             // Carregue os estilos CSS associados
             const style = document.createElement('style');
             style.textContent = cssContent;
+            style.setAttribute('data-spa', 'true'); // Adicione um atributo para identificar o estilo
             document.head.appendChild(style);
         })
         .catch(error => console.error('Erro ao carregar SPA:', error));
@@ -124,7 +144,7 @@ if (logoutButton != null) {
     });
 }
 
-function reloadPage(){
+export function reloadPage(){
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         let extensionId = chrome.runtime.id;
         let optionsPageURL = `chrome-extension://${extensionId}/src/templates/app/app.html`;

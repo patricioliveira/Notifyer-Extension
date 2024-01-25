@@ -6,6 +6,11 @@
     padding: 0.5em 0.5em !important;
 }
 
+.app-wrapper {
+    height: 100vh !important;
+    margin-bottom: 0;
+}
+
 body.is-dark .button.is-primary {
     border-color: transparent !important;
     background: #8941FF !important;
