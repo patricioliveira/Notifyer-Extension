@@ -142,17 +142,35 @@ class Notification extends Order {
             redirect: 'follow'
         };
 
+        console.log("Valor do Cookie: " + this.cookie); // Registra o valor do cookie
+        console.log("Cabeçalhos: ", myHeaders); // Registra os cabeçalhos
+
         // Realiza a requisição para a API de mensagens
         fetch(this.urlApi, requestOptions)
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Falha ao enviar mensagem para a API.');
+                    throw new Error('Falha ao enviar mensagem para a API. Status HTTP: ' + response.status);
                 }
                 return response.json();
+            })
+            .then(data => {
+                console.log('Resposta da API:', data); // Registra a resposta da API
             })
             .catch(error => {
                 console.error('Erro ao enviar mensagem para a API:', error);
             });
+
+        // // Realiza a requisição para a API de mensagens
+        // fetch(this.urlApi, requestOptions)
+        //     .then(response => {
+        //         if (!response.ok) {
+        //             throw new Error('Falha ao enviar mensagem para a API.');
+        //         }
+        //         return response.json();
+        //     })
+        //     .catch(error => {
+        //         console.error('Erro ao enviar mensagem para a API:', error);
+        //     });
     };
 
     getCookie() {

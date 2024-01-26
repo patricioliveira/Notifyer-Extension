@@ -132,13 +132,11 @@ if (logoutButton != null) {
         let response = await requisicoes.post('/auth/signout', {});
         if (response.Status) {
             localStorage.removeItem('AccessToken');
-            localStorage.removeItem('full_token_session');
+            localStorage.removeItem('access_token');
             let logData = new LogData("Usuário deslogado com sucesso e AccessToken removido do Local Storage!", AccessToken)
             databaseService.insertData(logData)
             reloadPage();
         } else {
-            localStorage.removeItem('AccessToken');
-            alert(response);
             reloadPage();
         }
     });
