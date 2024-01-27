@@ -51,9 +51,7 @@ function injectCode(src) {
     nullthrows(document.head || document.documentElement).appendChild(script);
 }
 
-let cookieEstaPresente = cookieValido(meuCookieNome);
-let isConnected = localStorage.getItem(isConnected);
+// let cookieEstaPresente = cookieValido(meuCookieNome);
+// let isConnected = localStorage.getItem(isConnected);
 
-if (cookieEstaPresente && isConnected == 'true') {
-    injectCode(chrome.runtime.getURL('src/scripts/interceptor.js'));
-};
+injectCode(chrome.runtime.getURL('src/scripts/interceptor.js'));

@@ -11,7 +11,10 @@ const buttonToLoading = document.getElementById('button-session-link');
 if (buttonGetTokenSession != null) {
     buttonGetTokenSession?.addEventListener("click", async (event) => {
         event.preventDefault();
-        await startSession();
+        if (!buttonToLoading.classList.contains('disabled')) {
+            initLoad();
+            await startSession();
+        }   
     });
 }
 
@@ -19,27 +22,22 @@ const pollingInterval = 5000; // Intervalo de polling em milissegundos
 let pollingActive = false; // Flag para indicar se o polling está ativo
 
 async function startSession() {
-    if (!buttonToLoading.classList.contains('disabled')) {
-        buttonToLoading.classList.add('disabled', 'is-loading');
+    try {
+        const AccessToken = localStorage.getItem('access_token');
 
-        try {
-            const AccessToken = localStorage.getItem('access_token');
+        if (AccessToken) {
+            const responseStartSession = await requisicoes.post('/session/start-session', {});
 
-            if (AccessToken) {
-                const responseStartSession = await requisicoes.post('/session/start-session', {});
-
-                if (responseStartSession?.Result?.status == 'success') {
-                    logAndInsertData("Sessão iniciada com sucesso", responseStartSession);
-                    getQrCode();
-                } else {
-                    handleStartSessionStatus(responseStartSession?.Result?.status);
-                }
+            if (responseStartSession?.Result?.status == 'success' || responseStartSession?.Result?.status == 'QRCODE') {
+                logAndInsertData("Sessão iniciada com sucesso", responseStartSession);
+                getQrCode(responseStartSession?.Result?.qrcode);
+            } else {
+                handleStartSessionStatus(responseStartSession?.Result?.status);
             }
-        } catch (error) {
-            logAndHandleError('Erro:', error);
         }
-
-        buttonToLoading.classList.remove('disabled', 'is-loading');
+    } catch (error) {
+        disableLoad();
+        logAndHandleError('Erro:', error);
     }
 }
 
@@ -48,7 +46,11 @@ function handleStartSessionStatus(status) {
         startPolling(startSession);
     } else if (status == 'INITIALIZING') {
         startPolling(verifyStartSession);
-    } else {
+    } else if (status == 'QRCODE'){
+        getQrCode();
+    }
+    else {
+        disableLoad();
         logAndHandleError("Houve algum problema ao iniciar a sessão", { status });
     }
 }
@@ -67,12 +69,13 @@ function startPolling(callback) {
                 }
             } catch (error) {
                 logAndHandleError('Erro:', error);
+                disableLoad();
             }
         }, pollingInterval);
     }
 }
 
-async function verifyStartSession(param) {
+async function verifyStartSession() {
     const intervalId = setInterval(async () => {
         try {
             const responseStartSession = await requisicoes.get('/session/status-session');
@@ -83,44 +86,49 @@ async function verifyStartSession(param) {
                 clearInterval(intervalId);
                 setTimeout(verifyStartSession, 0);
             }
+            //todo: implementar outro else if para verificar a coneção após mostrar o qr code
+        } catch (error) {
+            logAndHandleError('Erro:', error);
+            disableLoad();
+        }
+    }, 5000);
+}
+
+async function getQrCode(qrcode){
+    
+    qrcode ? qrcode : qrcode = await requisicoes.get('/session/qrcode-session');
+
+    if (qrcode.Result ? qrcode.Result : qrcode) {
+        exibirImagemBase64(qrcode.Result ? qrcode.Result : qrcode);
+        buttonToLoading.classList.remove('disabled', 'is-loading');
+        logAndInsertData("QR code gerado com sucesso", qrcode.Result ? qrcode.Result : qrcode);
+        setTimeout(verifyStartSession, 2000);
+    } else {
+        logAndInsertData("Houve algum problema ao gerar o QRCODE", qrcode.Result ? qrcode.Result : qrcode);
+        localStorage.setItem("isConnected", 'false');
+        console.error(qrcode.Result ? qrcode.Result : qrcode);
+        disableLoad();
+    }
+}
+
+async function verifyConnectionStatus() {
+    const intervalId = setInterval(async () => {
+        try {
+            const connectionStatus = await requisicoes.get('/session/check-connection-session');
+            if (connectionStatus?.Result.status == true && connectionStatus?.Result.message == "Connected") {
+                console.log(connectionStatus)
+                localStorage.setItem("isConnected", 'true');
+                clearInterval(intervalId);
+            } else if (connectionStatus?.Result.status == false && connectionStatus?.Result.message == "Disconnected") {
+                localStorage.setItem("isConnected", 'false');
+                console.log(connectionStatus)
+                await verifyConnectionStatus();
+            }
         } catch (error) {
             logAndHandleError('Erro:', error);
         }
     }, 5000);
 }
-
-async function getQrCode(){
-    const responseQrcode = await requisicoes.get('/session/qrcode-session');
-
-    if (responseQrcode?.Result) {
-        exibirImagemBase64(responseQrcode?.Result);
-        logAndInsertData("QR code gerado com sucesso", responseStartSession);
-        setTimeout(verifyStartSession, 0);
-    } else {
-        logAndInsertData("Houve algum problema ao gerar o QRCODE", responseStartSession);
-        localStorage.setItem("isConnected", 'false');
-        console.error(responseQrcode);
-    }
-}
-
-// async function verifyConnectionStatus() {
-//     const intervalId = setInterval(async () => {
-//         try {
-//             const connectionStatus = await requisicoes.get('/session/check-connection-session');
-//             if (connectionStatus?.Result.status == true && connectionStatus?.Result.message == "Connected") {
-//                 console.log(connectionStatus)
-//                 localStorage.setItem("isConnected", 'true');
-//                 clearInterval(intervalId);
-//             } else if (connectionStatus?.Result.status == false && connectionStatus?.Result.message == "Disconnected") {
-//                 localStorage.setItem("isConnected", 'false');
-//                 console.log(connectionStatus)
-//                 await verifyConnectionStatus();
-//             }
-//         } catch (error) {
-//             logAndHandleError('Erro:', error);
-//         }
-//     }, 5000);
-// }
 
 function exibirImagemBase64(codigoBase64) {
     // Obtém o elemento de imagem com o ID "qrcode-image"
@@ -143,4 +151,12 @@ function logAndHandleError(message, error) {
     console.error(message, error);
     const logError = new LogData(message, error);
     databaseService.insertData(logError);
+}
+
+function initLoad(){
+    buttonToLoading.classList.add('disabled', 'is-loading');
+}
+
+function disableLoad() {
+    buttonToLoading.classList.remove('disabled', 'is-loading');
 }
