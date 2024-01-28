@@ -1,6 +1,7 @@
 import { RequisicoesHTTP } from '../../../services/httpbase.service.js';
 import { LogData } from '../../../class/logdata-model.js';
 import { DatabaseService } from '../../../services/database.service.js';
+import { notyf } from '../../assets/vendor/js/components.js';
 
 const requisicoes = new RequisicoesHTTP();
 const databaseService = new DatabaseService();
@@ -48,8 +49,10 @@ function handleStartSessionStatus(status) {
         startPolling(verifyStartSession);
     } else if (status == 'QRCODE'){
         getQrCode();
-    }
-    else {
+    } else if (status == 'CONNECTED') {
+        notyf.success('Sua conexão já está ativa com sua sessão!');
+        disableLoad();
+    } else {
         disableLoad();
         logAndHandleError("Houve algum problema ao iniciar a sessão", { status });
     }
@@ -86,7 +89,7 @@ async function verifyStartSession() {
                 clearInterval(intervalId);
                 setTimeout(verifyStartSession, 0);
             }
-            //todo: implementar outro else if para verificar a coneção após mostrar o qr code
+            //todo: implementar outro else if para verificar a conexão após mostrar o qr code
         } catch (error) {
             logAndHandleError('Erro:', error);
             disableLoad();
@@ -100,9 +103,9 @@ async function getQrCode(qrcode){
 
     if (qrcode.Result ? qrcode.Result : qrcode) {
         exibirImagemBase64(qrcode.Result ? qrcode.Result : qrcode);
-        buttonToLoading.classList.remove('disabled', 'is-loading');
+        disableLoad();
         logAndInsertData("QR code gerado com sucesso", qrcode.Result ? qrcode.Result : qrcode);
-        setTimeout(verifyStartSession, 2000);
+        setTimeout(verifyConnectionStatus, 5000);
     } else {
         logAndInsertData("Houve algum problema ao gerar o QRCODE", qrcode.Result ? qrcode.Result : qrcode);
         localStorage.setItem("isConnected", 'false');
@@ -116,16 +119,21 @@ async function verifyConnectionStatus() {
         try {
             const connectionStatus = await requisicoes.get('/session/check-connection-session');
             if (connectionStatus?.Result.status == true && connectionStatus?.Result.message == "Connected") {
-                console.log(connectionStatus)
+                console.log(connectionStatus);
                 localStorage.setItem("isConnected", 'true');
+                Notyf.success('Your changes have been successfully saved!');
                 clearInterval(intervalId);
+                setTimeout(() => {clearQRCode()}, 10000);
             } else if (connectionStatus?.Result.status == false && connectionStatus?.Result.message == "Disconnected") {
                 localStorage.setItem("isConnected", 'false');
-                console.log(connectionStatus)
-                await verifyConnectionStatus();
+                console.log(connectionStatus);
+                clearInterval(intervalId);
+                setTimeout(verifyConnectionStatus, 5000);
+                setTimeout(() => { clearQRCode() }, 15000);
             }
         } catch (error) {
             logAndHandleError('Erro:', error);
+            disableLoad();
         }
     }, 5000);
 }
@@ -139,6 +147,13 @@ function exibirImagemBase64(codigoBase64) {
 
     // Atribui o código base64 como a fonte da imagem
     imgElement.src = base64String.includes('data:image/png;base64,') ? base64String : ('data:image/png;base64,' + base64String);
+    Notyf.success('Your changes have been successfully saved!');
+    setTimeout(verifyConnectionStatus, 5000);
+}
+
+function clearQRCode(){
+    const imgElement = document.getElementById('qrcode-image');
+    imgElement.src = ''
 }
 
 
