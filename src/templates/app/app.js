@@ -48,9 +48,8 @@ export function navigateTo(route) {
                 painelHome.classList.add("is-active");
             }, 500);
             let connected = localStorage.getItem('isConnected')
-            if (connected == 'false'){
-                notyf.open({ type: 'info', message: 'Você está desconectado do WhatsApp! Gere o QR CODE e conecte agora mesmo!' });
-            }
+            if (connected == 'false') notyf.open({ type: 'info', message: 'Você está desconectado do WhatsApp! Gere o QR CODE e conecte-se agora mesmo!' });
+            else if (connected == 'true') notyf.open({ type: 'info', message: 'Você já está conectado ao WhatsApp!' });
             loadSPA('../pages/painel/painel.html', '../pages/painel/painel.css', '../pages/painel/painel.js', container);
             break;
         case 'painel':

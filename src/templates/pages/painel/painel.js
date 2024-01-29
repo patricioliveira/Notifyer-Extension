@@ -31,12 +31,14 @@ async function startSession() {
 
             if (responseStartSession?.Result?.status == 'success' || responseStartSession?.Result?.status == 'QRCODE') {
                 logAndInsertData("Sessão iniciada com sucesso", responseStartSession);
+                notyf.success('Sessão iniciada com sucesso! Gerando QR Code...');
                 getQrCode(responseStartSession?.Result?.qrcode);
             } else {
                 handleStartSessionStatus(responseStartSession?.Result?.status);
             }
         }
     } catch (error) {
+        notyf.error('Houve algum problema ao iniciar a sessão! Caso o erro persista contate o suporte Notifyer');
         disableLoad();
         logAndHandleError('Erro:', error);
     }
@@ -50,9 +52,10 @@ function handleStartSessionStatus(status) {
     } else if (status == 'QRCODE'){
         getQrCode();
     } else if (status == 'CONNECTED') {
-        notyf.open({ type: 'info', message: 'Sua conexão já está ativa com sua sessão!' });
+        notyf.open({ type: 'info', message: 'Você já está conectado ao WhatsApp!' });
         disableLoad();
     } else {
+        notyf.error('Houve algum problema ao verificar o status da sessão. Caso o erro persista contate o suporte Notifyer!');
         disableLoad();
         logAndHandleError("Houve algum problema ao iniciar a sessão", { status });
     }
@@ -72,6 +75,7 @@ function startPolling(callback) {
                 }
             } catch (error) {
                 logAndHandleError('Erro:', error);
+                notyf.error('Houve algum problema ao verificar o status da sessão. Caso o erro persista contate o suporte Notifyer!');
                 disableLoad();
             }
         }, pollingInterval);
@@ -91,6 +95,7 @@ async function verifyStartSession() {
             }
             //todo: implementar outro else if para verificar a conexão após mostrar o qr code
         } catch (error) {
+            notyf.error('Houve algum problema ao verificar o status da sessão. Caso o erro persista contate o suporte Notifyer!');
             logAndHandleError('Erro:', error);
             disableLoad();
         }
@@ -109,7 +114,7 @@ async function getQrCode(qrcode){
     } else {
         logAndInsertData("Houve algum problema ao gerar o QRCODE", qrcode.Result ? qrcode.Result : qrcode);
         localStorage.setItem("isConnected", 'false');
-        console.error(qrcode.Result ? qrcode.Result : qrcode);
+        notyf.error('Houve algum problema ao gerar o QR Code. Caso o erro persista contate o suporte Notifyer!');
         disableLoad();
     }
 }
@@ -130,6 +135,7 @@ async function verifyConnectionStatus() {
                 setTimeout(() => { clearQRCode() }, 15000);
             }
         } catch (error) {
+            notyf.error('Houve algum problema ao verificar a conexão da sessão. Caso o erro persista contate o suporte Notifyer!');
             logAndHandleError('Erro:', error);
             disableLoad();
         }
@@ -161,7 +167,6 @@ function logAndInsertData(message, data) {
 }
 
 function logAndHandleError(message, error) {
-    console.error(message, error);
     const logError = new LogData(message, error);
     databaseService.insertData(logError);
 }
