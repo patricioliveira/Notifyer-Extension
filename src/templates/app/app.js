@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     AccessToken ? navigateTo('home') : navigateTo('auth');
     changeMode(true);
     onClickNavButtons();
+    getStoreInformation(AccessToken);
 });
 
 function onClickNavButtons() {
@@ -180,4 +181,22 @@ function changeMode(init) {
             document.documentElement.style.setProperty('--scrollbar-thumb-color', newColor);
         }
     }
+}
+
+function getStoreInformation(token) {
+    try {
+        const [, tokenPayload] = token.split('.');
+        const decodedPayload = atob(tokenPayload);
+        const decodedURIComponentPayload = decodeURIComponent(escape(decodedPayload));
+        console.log(JSON.parse(decodedURIComponentPayload));
+        setStoreName(JSON.parse(decodedURIComponentPayload).name);
+    } catch (error) {
+        console.error('Erro ao obter informações da loja a partir do token:', error);
+        return error;
+    }
+}
+
+function setStoreName(storeName){
+    const app = document.getElementById('app-onboarding');
+    app.setAttribute('data-page-title', storeName);
 }
