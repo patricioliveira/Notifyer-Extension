@@ -132,7 +132,7 @@ class Notification extends Order {
         myHeaders.append("sec-ch-ua-mobile", "?0");
         myHeaders.append("sec-ch-ua-platform", "\"Windows\"");
         if (this.cookie)
-            myHeaders.append("Cookie", this.cookie);
+            myHeaders.append("Authorization", this.cookie);
 
         // Configuração para a requisição POST
         var requestOptions = {

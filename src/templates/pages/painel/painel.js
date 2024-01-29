@@ -9,6 +9,11 @@ const databaseService = new DatabaseService();
 const buttonGetTokenSession = document.getElementById('button-session');
 const buttonToLoading = document.getElementById('button-session-link');
 
+document.addEventListener('DOMContentLoaded', () => {
+    notyf.info('Você está desconectado do WhatsApp! Gere o QR CODE e conecte agora mesmo!');
+});
+
+
 if (buttonGetTokenSession != null) {
     buttonGetTokenSession?.addEventListener("click", async (event) => {
         event.preventDefault();
@@ -121,7 +126,7 @@ async function verifyConnectionStatus() {
             if (connectionStatus?.Result.status == true && connectionStatus?.Result.message == "Connected") {
                 console.log(connectionStatus);
                 localStorage.setItem("isConnected", 'true');
-                Notyf.success('Your changes have been successfully saved!');
+                notyf.success('Você está conectado ao WhatsApp!');
                 clearInterval(intervalId);
                 setTimeout(() => {clearQRCode()}, 10000);
             } else if (connectionStatus?.Result.status == false && connectionStatus?.Result.message == "Disconnected") {
@@ -147,7 +152,7 @@ function exibirImagemBase64(codigoBase64) {
 
     // Atribui o código base64 como a fonte da imagem
     imgElement.src = base64String.includes('data:image/png;base64,') ? base64String : ('data:image/png;base64,' + base64String);
-    Notyf.success('Your changes have been successfully saved!');
+    notyf.success('QR Code gerado com sucesso!');
     setTimeout(verifyConnectionStatus, 5000);
 }
 
