@@ -2,6 +2,7 @@ import { RequisicoesHTTP } from '../../services/httpbase.service.js';
 import { LoginUser } from '../../class/user-model.js';
 import { LogData } from '../../class/logdata-model.js';
 import { DatabaseService } from '../../services/database.service.js';
+import { notyf } from '../assets/vendor/js/components.js';
 
 const requisicoes = new RequisicoesHTTP();
 const UserData = new LoginUser();
@@ -46,6 +47,10 @@ export function navigateTo(route) {
                 let painelHome = document.getElementById("painel-navbar-menu");
                 painelHome.classList.add("is-active");
             }, 500);
+            let connected = localStorage.getItem('isConnected')
+            if (connected == 'false'){
+                notyf.open({ type: 'info', message: 'Você está desconectado do WhatsApp! Gere o QR CODE e conecte agora mesmo!' });
+            }
             loadSPA('../pages/painel/painel.html', '../pages/painel/painel.css', '../pages/painel/painel.js', container);
             break;
         case 'painel':

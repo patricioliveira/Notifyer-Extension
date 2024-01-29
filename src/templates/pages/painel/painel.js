@@ -9,11 +9,6 @@ const databaseService = new DatabaseService();
 const buttonGetTokenSession = document.getElementById('button-session');
 const buttonToLoading = document.getElementById('button-session-link');
 
-document.addEventListener('DOMContentLoaded', () => {
-    notyf.info('Você está desconectado do WhatsApp! Gere o QR CODE e conecte agora mesmo!');
-});
-
-
 if (buttonGetTokenSession != null) {
     buttonGetTokenSession?.addEventListener("click", async (event) => {
         event.preventDefault();
@@ -55,7 +50,7 @@ function handleStartSessionStatus(status) {
     } else if (status == 'QRCODE'){
         getQrCode();
     } else if (status == 'CONNECTED') {
-        notyf.success('Sua conexão já está ativa com sua sessão!');
+        notyf.open({ type: 'info', message: 'Sua conexão já está ativa com sua sessão!' });
         disableLoad();
     } else {
         disableLoad();
@@ -124,14 +119,12 @@ async function verifyConnectionStatus() {
         try {
             const connectionStatus = await requisicoes.get('/session/check-connection-session');
             if (connectionStatus?.Result.status == true && connectionStatus?.Result.message == "Connected") {
-                console.log(connectionStatus);
                 localStorage.setItem("isConnected", 'true');
                 notyf.success('Você está conectado ao WhatsApp!');
                 clearInterval(intervalId);
                 setTimeout(() => {clearQRCode()}, 10000);
             } else if (connectionStatus?.Result.status == false && connectionStatus?.Result.message == "Disconnected") {
                 localStorage.setItem("isConnected", 'false');
-                console.log(connectionStatus);
                 clearInterval(intervalId);
                 setTimeout(verifyConnectionStatus, 5000);
                 setTimeout(() => { clearQRCode() }, 15000);
