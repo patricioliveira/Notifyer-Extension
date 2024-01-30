@@ -2,6 +2,10 @@
     margin-top: 2rem;
 }
 
+#app-container {
+    margin-bottom: 0 !important;
+}
+
 .message-body {
     padding: 0.5em 0.5em !important;
 }
@@ -9,6 +13,12 @@
 .app-wrapper {
     height: 100vh !important;
     margin-bottom: 0;
+}
+
+#footer {
+    background-color: transparent !important;
+    padding-bottom: 0.65rem !important;
+    margin-top: 0 !important;
 }
 
 body.is-dark .button.is-primary {

@@ -1,10 +1,14 @@
 .page-content-inner {
-    min-height: 10vh !important;
-    margin-bottom: 16rem !important;
-    margin-top: 5rem !important;
+    min-height: 76.4vh !important;
+    margin-bottom: -23.7vh !important;
+    margin-top: 8.3rem !important;
 }
 
 body.is-dark .button.is-primary {
     border-color: #671cc9 !important;
     background: #671cc9 !important;
+}
+
+.standard-onboarding{
+    padding: 15px 0 !important;
 }

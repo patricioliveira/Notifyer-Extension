@@ -18,7 +18,7 @@
 
 footer {
     background-color: transparent !important;
-    margin-top: 8rem !important;
+    margin-top: 21vh !important;
 }
 
 body.is-dark .form-switch.is-primary input:checked+i {

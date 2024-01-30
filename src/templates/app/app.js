@@ -158,8 +158,10 @@ export function reloadPage(){
 function hideNavAndFooterForAuth(){
     let nav = document.getElementById('huro-nav');
     let footer = document.getElementById('footer');
+    let appcontainer = document.getElementById('app-container');
+    appcontainer.style.marginBottom = '0 !important';
     nav.style.display = 'none';
-    footer.style.display = 'none';
+    footer.parentElement.removeChild(footer);
 };
 
 function changeMode(init) {
