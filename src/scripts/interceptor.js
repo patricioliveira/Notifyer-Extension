@@ -106,7 +106,8 @@ class Notification extends Order {
         this.cookie = this.getCookie();
         this.sessionToken = this.cookie;
         this.method = 'send-message';
-        this.urlApi = `http://localhost:3000/api/messages/${this.method}`;
+        this.urlApi = `http://localhost:21465/api/${this.cookie}/${this.method}`;
+        // this.urlApi = `http://179.190.205.59:21465/api/${this.cookie}/${this.method}`;
     }
 
 
@@ -131,8 +132,6 @@ class Notification extends Order {
         myHeaders.append("sec-ch-ua", "\"Chromium\";v=\"116\", \"Not)A;Brand\";v=\"24\", \"Google Chrome\";v=\"116\"");
         myHeaders.append("sec-ch-ua-mobile", "?0");
         myHeaders.append("sec-ch-ua-platform", "\"Windows\"");
-        if (this.cookie)
-            myHeaders.append("Authorization", this.cookie);
 
         // Configuração para a requisição POST
         var requestOptions = {
@@ -159,30 +158,23 @@ class Notification extends Order {
             .catch(error => {
                 console.error('Erro ao enviar mensagem para a API:', error);
             });
-
-        // // Realiza a requisição para a API de mensagens
-        // fetch(this.urlApi, requestOptions)
-        //     .then(response => {
-        //         if (!response.ok) {
-        //             throw new Error('Falha ao enviar mensagem para a API.');
-        //         }
-        //         return response.json();
-        //     })
-        //     .catch(error => {
-        //         console.error('Erro ao enviar mensagem para a API:', error);
-        //     });
     };
 
     getCookie() {
         // Use um método síncrono para obter o cookie
         const cookieName = 'access_token='
-        const cookie = document.cookie
+        let cookie = document.cookie
             .split('; ')
             .find(row => row.startsWith(`${cookieName}`));
-
-        // return cookie ? cookie.split('=')[1] : '';
-        return cookie ? cookie : '';
-
+        cookie = cookie.split('=')[1];
+        try {
+            const [, tokenPayload] = cookie.split('.');
+            const decodedPayload = atob(tokenPayload);
+            return JSON.parse(decodedPayload).token
+        } catch (error) {
+            console.error('Erro ao obter informações da loja a partir do token:', error);
+            return '';
+        }
     }
 }
 

@@ -10,10 +10,10 @@ const databaseService = new DatabaseService();
 
 document.addEventListener('DOMContentLoaded', () => {
     let AccessToken = localStorage.getItem('AccessToken');
-    AccessToken ? navigateTo('home') : navigateTo('auth');
+    AccessToken ? (navigateTo('home'), getStoreInformation(AccessToken)) : navigateTo('auth');
     changeMode(true);
     onClickNavButtons();
-    getStoreInformation(AccessToken);
+    getLogbook();
 });
 
 function onClickNavButtons() {
@@ -125,7 +125,7 @@ export function loadSPA(htmlFile, cssFile, jsFile, container) {
             style.setAttribute('data-spa', 'true'); // Adicione um atributo para identificar o estilo
             document.head.appendChild(style);
         })
-        .catch(error => console.error('Erro ao carregar SPA:', error));
+        .catch(error => logAndHandleError('Erro ao carregar SPA:', error));
 }
 
 const logoutButton = document.getElementById("button-logout");
@@ -138,10 +138,10 @@ if (logoutButton != null) {
         if (response.Status) {
             localStorage.removeItem('AccessToken');
             localStorage.removeItem('access_token');
-            let logData = new LogData("Usuário deslogado com sucesso e AccessToken removido do Local Storage!", AccessToken)
-            databaseService.insertData(logData)
+            logAndInsertData("Usuário deslogado com sucesso e AccessToken removido do Local Storage!", AccessToken);
             reloadPage();
         } else {
+            logAndHandleError('Erro ao tentar deslogar usuário', response); 
             reloadPage();
         }
     });
@@ -190,15 +190,38 @@ function getStoreInformation(token) {
         const [, tokenPayload] = token.split('.');
         const decodedPayload = atob(tokenPayload);
         const decodedURIComponentPayload = decodeURIComponent(escape(decodedPayload));
-        console.log(JSON.parse(decodedURIComponentPayload));
-        setStoreName(JSON.parse(decodedURIComponentPayload).name);
+        const firstLetter = JSON.parse(decodedURIComponentPayload).name.charAt(0);
+        setStoreName(firstLetter, JSON.parse(decodedURIComponentPayload).name);
     } catch (error) {
-        console.error('Erro ao obter informações da loja a partir do token:', error);
+        logAndHandleError('Erro ao obter informações da loja a partir do token:', error);
         return error;
     }
 }
 
-function setStoreName(storeName){
+function setStoreName(firstLetter, storeName){
     const app = document.getElementById('app-onboarding');
+    const spanLetter = document.getElementById('firstLetter')
     app.setAttribute('data-page-title', storeName);
+    spanLetter.innerText = `${firstLetter}`;
+}
+
+function getLogbook(){
+    const button = document.getElementById('logButton');
+    button?.addEventListener("click", async (event) => {
+        exportLogbook();
+    });
+}
+
+async function exportLogbook(){
+    databaseService.downloadLogbook();
+}
+
+function logAndInsertData(message, data) {
+    const logData = new LogData(message, data);
+    databaseService.insertData(logData);
+}
+
+function logAndHandleError(message, error) {
+    const logError = new LogData(message, error);
+    databaseService.insertData(logError);
 }

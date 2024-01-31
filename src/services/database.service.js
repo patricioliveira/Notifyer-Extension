@@ -11,38 +11,38 @@ export class DatabaseService {
 
     openDB() {
         return new Promise((resolve, reject) => {
-            this.resolve = resolve;
-            this.reject = reject;
-
             const request = indexedDB.open(this.DB_NAME, this.DB_VERSION);
 
             request.onerror = (event) => {
-                this.reject(`Error opening database: ${event.target.errorCode}`);
+                reject(`Error opening database: ${event.target.errorCode}`);
             };
 
             request.onsuccess = (event) => {
                 this.db = event.target.result;
-                this.resolve(this.db);
+                resolve(this.db);
             };
 
             request.onupgradeneeded = (event) => {
                 this.db = event.target.result;
-                const objectStore = this.db.createObjectStore("logbook", { keyPath: "id", autoIncrement: true });
-                // Add more object store configuration if needed
+                this.setupObjectStore();
             };
         });
     }
 
-    async insertData(Data) {
+    setupObjectStore() {
+        const objectStore = this.db.createObjectStore("logbook", { keyPath: "id", autoIncrement: true });
+        // Adicione mais configurações de object store, se necessário
+    }
+
+    async insertData(data) {
         const db = await this.openDB();
         const transaction = db.transaction(["logbook"], "readwrite");
         const objectStore = transaction.objectStore("logbook");
 
-        // Garanta que o objeto a ser armazenado siga a estrutura desejada
         const dataEntry = {
-            action: Data.action,
-            details: Data.details,
-            timestamp: Data.timestamp,
+            action: data.action,
+            details: data.details,
+            timestamp: data.timestamp,
         };
 
         return new Promise((resolve, reject) => {
@@ -127,5 +127,41 @@ export class DatabaseService {
                 reject(`Error listing data: ${event.target.error}`);
             };
         });
+    }
+
+    async downloadLogbook() {
+        const logbookData = await this.getAllData();
+
+        if (logbookData.length === 0) {
+            console.warn("o Logbook está vazio. Nada para baixar.");
+            return;
+        }
+
+        const formattedData = this.formatLogbook(logbookData);
+        const blob = new Blob([formattedData], { type: "text/plain" });
+
+        const downloadLink = document.createElement("a");
+        downloadLink.href = URL.createObjectURL(blob);
+        downloadLink.download = "logbook.txt";
+
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+
+        document.body.removeChild(downloadLink);
+    }
+
+    formatLogbook(logbookData) {
+        // Personalize o formato do logbook conforme necessário
+        // Aqui, estamos convertendo cada objeto para uma linha de texto formatada
+        return logbookData.map(entry => {
+            const formattedEntry = {
+                action: entry.action,
+                details: entry.details,
+                timestamp: entry.timestamp,
+                id: entry.id
+            };
+
+            return JSON.stringify(formattedEntry, null, 2); // 2 espaços de indentação para uma formatação mais legível
+        }).join('\n');
     }
 }

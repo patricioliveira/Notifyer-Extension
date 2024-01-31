@@ -40,7 +40,7 @@ async function startSession() {
     } catch (error) {
         notyf.error('Houve algum problema ao iniciar a sessão! Caso o erro persista contate o suporte Notifyer');
         disableLoad();
-        logAndHandleError('Erro:', error);
+        logAndHandleError('Houve algum problema ao iniciar a sessão!', error);
     }
 }
 
@@ -74,7 +74,7 @@ function startPolling(callback) {
                     handleStartSessionStatus(responseStartSession?.Result?.status);
                 }
             } catch (error) {
-                logAndHandleError('Erro:', error);
+                logAndHandleError('Houve algum problema ao verificar o status da sessão.', error);
                 notyf.error('Houve algum problema ao verificar o status da sessão. Caso o erro persista contate o suporte Notifyer!');
                 disableLoad();
             }
@@ -87,8 +87,6 @@ async function verifyStartSession() {
         try {
             const responseStartSession = await requisicoes.get('/session/status-session');
             if (responseStartSession?.Result.status !== 'CLOSED' && responseStartSession?.Result.status !== 'INITIALIZING') {
-                
-                logAndInsertData("QR code gerado com sucesso", responseStartSession);
                 exibirImagemBase64(responseStartSession?.Result);
                 clearInterval(intervalId);
                 setTimeout(verifyStartSession, 0);
@@ -96,7 +94,7 @@ async function verifyStartSession() {
             //todo: implementar outro else if para verificar a conexão após mostrar o qr code
         } catch (error) {
             notyf.error('Houve algum problema ao verificar o status da sessão. Caso o erro persista contate o suporte Notifyer!');
-            logAndHandleError('Erro:', error);
+            logAndHandleError('Houve algum problema ao verificar o status da sessão.', error);
             disableLoad();
         }
     }, 5000);
@@ -112,7 +110,7 @@ async function getQrCode(qrcode){
         logAndInsertData("QR code gerado com sucesso", qrcode.Result ? qrcode.Result : qrcode);
         setTimeout(verifyConnectionStatus, 5000);
     } else {
-        logAndInsertData("Houve algum problema ao gerar o QRCODE", qrcode.Result ? qrcode.Result : qrcode);
+        logAndHandleError("Houve algum problema ao gerar o QRCODE", qrcode.Result ? qrcode.Result : qrcode);
         localStorage.setItem("isConnected", 'false');
         notyf.error('Houve algum problema ao gerar o QR Code. Caso o erro persista contate o suporte Notifyer!');
         disableLoad();
@@ -125,6 +123,7 @@ async function verifyConnectionStatus() {
             const connectionStatus = await requisicoes.get('/session/check-connection-session');
             if (connectionStatus?.Result.status == true && connectionStatus?.Result.message == "Connected") {
                 localStorage.setItem("isConnected", 'true');
+                logAndInsertData('Você está conectado ao WhatsApp!', connectionStatus);
                 notyf.success('Você está conectado ao WhatsApp!');
                 clearInterval(intervalId);
                 setTimeout(() => {clearQRCode()}, 10000);
@@ -136,7 +135,7 @@ async function verifyConnectionStatus() {
             }
         } catch (error) {
             notyf.error('Houve algum problema ao verificar a conexão da sessão. Caso o erro persista contate o suporte Notifyer!');
-            logAndHandleError('Erro:', error);
+            logAndHandleError('Houve algum problema ao verificar a conexão da sessão.', error);
             disableLoad();
         }
     }, 5000);
@@ -151,6 +150,7 @@ function exibirImagemBase64(codigoBase64) {
 
     // Atribui o código base64 como a fonte da imagem
     imgElement.src = base64String.includes('data:image/png;base64,') ? base64String : ('data:image/png;base64,' + base64String);
+    logAndInsertData('QR Code gerado com sucesso!', base64String.includes('data:image/png;base64,') ? base64String : ('data:image/png;base64,' + base64String));
     notyf.success('QR Code gerado com sucesso!');
     setTimeout(verifyConnectionStatus, 5000);
 }

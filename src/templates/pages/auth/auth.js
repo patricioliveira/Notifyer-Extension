@@ -35,12 +35,12 @@ if (submitButton != null) {
             let userData = { ...UserData }
             userData.Token = response.Result
             localStorage.setItem("AccessToken", userData.Token)
-            let logData = new LogData("Login autenticado com sucesso", userData)
-            databaseService.insertData(logData)
+            logAndInsertData("Login autenticado com sucesso", userData);
             await gerarTokenSession();
             reloadPage();
         } else {
             showMsgError(response)
+            logAndHandleError("Não foi possível autenticar o usuário", response);
         }
     });
 }
@@ -48,16 +48,11 @@ if (submitButton != null) {
 async function gerarTokenSession() {
     const response = await requisicoes.post('/session/generate-token', {});
 
-    if (response?.Result?.full) {
-        localStorage.setItem('full_token_session', response?.Result.full)
-        let logData = new LogData("SessionToken gerado com sucesso", response);
-        databaseService.insertData(logData);
+    if (response?.Result) {
+        logAndInsertData("SessionToken gerado com sucesso", response);
         return
     } else {
-        let logError = new LogData("Houve algum problema ao gerar o SessionToken", response);
-        databaseService.insertData(logError);
-        localStorage.setItem("isConnected", 'false');
-        console.error(response);
+        logAndHandleError("Houve algum problema ao gerar o SessionToken", response);
         return
     }
 }
@@ -117,4 +112,14 @@ function changeMode(init) {
             document.documentElement.style.setProperty('--scrollbar-thumb-color', newColor);
         }
     }
+}
+
+function logAndInsertData(message, data) {
+    const logData = new LogData(message, data);
+    databaseService.insertData(logData);
+}
+
+function logAndHandleError(message, error) {
+    const logError = new LogData(message, error);
+    databaseService.insertData(logError);
 }

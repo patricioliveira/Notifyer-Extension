@@ -40,8 +40,7 @@ export class RequisicoesHTTP {
             
           if (!response.ok) {
             let erro = response.status == 401 ? "Usuário não autenticado! Verifique suas informações de login!" : `Erro na requisição: ${response.status} - ${response.statusText}`;
-            let logData = new LogData(erro, JSON.stringify(dados));
-            databaseService.insertData(logData);
+            logAndHandleError(erro, JSON.stringify(dados));
             throw new Error(`${erro}`);
           }else{
             const jsonResponse = await response.json();
@@ -66,4 +65,9 @@ export class RequisicoesHTTP {
       put = (url, dados) => this.fazerRequisicao(url, 'PUT', dados);
     
       delete = url => this.fazerRequisicao(url, 'DELETE');
-  }
+}
+
+function logAndHandleError(message, error) {
+  const logError = new LogData(message, error);
+  databaseService.insertData(logError);
+}

@@ -34,7 +34,7 @@
         <div class="webapp-navbar is-colored">
             <div class="webapp-navbar-inner">
                 <div class="left">
-                    <a href="/" class="brand">
+                    <a href="/src/templates/app/app.html" class="brand">
                         <img class="light-image" src="../../../images/icon-128.png" alt="" />
                         <img class="dark-image" src="../../../images/icon-128.png" alt="" />
                     </a>
@@ -42,7 +42,7 @@
                     <div class="dropdown project-dropdown dropdown-trigger is-spaced">
                         <div class="h-avatar is-small">
                             <span class="avatar is-fake is-h-green">
-                                <span>C</span>
+                                <span id="firstLetter"></span>
                             </span>
                         </div>
                         <span class="status-indicator"></span>
@@ -160,8 +160,8 @@
                         </div>
         
         
-                        <a class="toolbar-link right-panel-trigger" data-panel="activity-panel">
-                            <i data-feather="grid"></i>
+                        <a id="logButton" class="toolbar-link right-panel-trigger" data-panel="activity-panel">
+                            <i data-feather="alert-circle"></i>
                         </a>
 
                         <a id="button-logout" class="toolbar-link right-panel-trigger" data-panel="activity-panel">

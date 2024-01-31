@@ -27,7 +27,6 @@ if (submitButton != null) {
 
     UserData.verifyUserData(UserData);
 
-    // submitButton.classList.add('is-loading');
     var response = null;
     response = await requisicoes.post('/auth/signin', UserData);
     if(response?.Result){
@@ -42,29 +41,8 @@ if (submitButton != null) {
     }else{
       showMsgError(response)
     }
-    // submitButton.classList.remove('is-loading');  
   });
 }
-
-// if(logoutButton != null){
-//   logoutButton?.addEventListener("click", async (event) => {
-//       // Impede o envio padrão do formulário
-//       event.preventDefault();
-//       logoutButton.classList.add('is-loading');
-//       AccessToken = localStorage.getItem('AccessToken');
-//       let response = await requisicoes.post('/auth/signout', {});
-//       if(response.Status){
-//         cleanInputs();
-//         localStorage.removeItem('AccessToken');
-//         let logData = new LogData("Usuário deslogado com sucesso e AccessToken removido do Local Storage!", AccessToken)
-//         databaseService.insertData(logData)
-//         hideCentralStatusPanel();
-//       }else{
-//         showMsgError(response)
-//       }    
-//       logoutButton.classList.remove('is-loading');  
-//   })
-// }
 
 // popup.js
 document.addEventListener('DOMContentLoaded', () => {
