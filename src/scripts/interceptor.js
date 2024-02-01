@@ -106,8 +106,8 @@ class Notification extends Order {
         this.cookie = this.getCookie();
         this.sessionToken = this.cookie;
         this.method = 'send-message';
-        this.urlApi = `http://localhost:21465/api/${this.cookie}/${this.method}`;
-        // this.urlApi = `http://179.190.205.59:21465/api/${this.cookie}/${this.method}`;
+        // this.urlApi = `http://localhost:21465/api/${this.cookie}/${this.method}`;
+        this.urlApi = `http://179.190.205.59:21465/api/${this.cookie}/${this.method}`;
     }
 
 
@@ -140,9 +140,6 @@ class Notification extends Order {
             body: JSON.stringify(messageData),
             redirect: 'follow'
         };
-
-        console.log("Valor do Cookie: " + this.cookie); // Registra o valor do cookie
-        console.log("Cabeçalhos: ", myHeaders); // Registra os cabeçalhos
 
         // Realiza a requisição para a API de mensagens
         fetch(this.urlApi, requestOptions)

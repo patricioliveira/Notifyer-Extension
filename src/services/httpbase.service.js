@@ -1,7 +1,8 @@
 import { DatabaseService } from "./database.service.js";
 import { LogData } from "../class/logdata-model.js";
 
-const URLBASE = 'http://localhost:3000/api';
+// const URLBASE = 'http://localhost:3000/api';
+const URLBASE = 'http://179.190.205.59/api';
 const databaseService = new DatabaseService(); 
 export class RequisicoesHTTP {
     constructor(baseURL = URLBASE) {

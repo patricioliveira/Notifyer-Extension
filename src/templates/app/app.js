@@ -10,7 +10,7 @@ const databaseService = new DatabaseService();
 
 document.addEventListener('DOMContentLoaded', () => {
     let AccessToken = localStorage.getItem('AccessToken');
-    AccessToken ? (navigateTo('home'), getStoreInformation(AccessToken)) : navigateTo('auth');
+    AccessToken ? (navigateTo('home'), getStoreInformation(AccessToken)) : (navigateTo('auth'), localStorage.setItem('isConnected', false));
     changeMode(true);
     onClickNavButtons();
     getLogbook();
@@ -138,6 +138,7 @@ if (logoutButton != null) {
         if (response.Status) {
             localStorage.removeItem('AccessToken');
             localStorage.removeItem('access_token');
+            localStorage.setItem('isConnected', false);
             logAndInsertData("Usuário deslogado com sucesso e AccessToken removido do Local Storage!", AccessToken);
             reloadPage();
         } else {
