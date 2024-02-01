@@ -107,7 +107,7 @@ class Notification extends Order {
         this.sessionToken = this.cookie;
         this.method = 'send-message';
         // this.urlApi = `http://localhost:21465/api/${this.cookie}/${this.method}`;
-        this.urlApi = `http://179.190.205.59:21465/api/${this.cookie}/${this.method}`;
+        this.urlApi = `https://179.190.205.59:21465/api/${this.cookie}/${this.method}`;
     }
 
 
