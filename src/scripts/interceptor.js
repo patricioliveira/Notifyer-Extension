@@ -89,13 +89,47 @@ class Order {
     }
     
     convertToWhatsAppFormat(originalMessage) {
+        // Verifica se a mensagem original é válida
+        if (!originalMessage) {
+            console.error('Mensagem original indefinida ou nula.');
+            return '';
+        }
+
+        // Decodifica e formata o restante da mensagem
         const textoDecodificado = decodeURIComponent(originalMessage.replace(/\+/g, ' '));
         const textoFormatado = textoDecodificado
             .replace(/[\n\r]+/g, '\n') // Remove quebras de linha duplicadas
             .replace(/\*\*/g, '*') // Remove asteriscos extras
             .replace(/\*Para repetir[^*]+\*/g, ''); // Remove partes específicas
 
-        return textoFormatado.trim();
+        // Verifica se a mensagem original contém a frase desejada
+        const indexOfPointsQuestion = textoFormatado.indexOf("*Quer ganhar 2 pontos fidelidade?");
+
+        // Se a frase for encontrada, remove a parte a partir dessa frase
+        let message = indexOfPointsQuestion !== -1
+            ? textoFormatado.substring(0, indexOfPointsQuestion)
+            : textoFormatado;
+
+        // Verifica se a mensagem original contém a frase desejada
+        const indexOfDeliveryNotification = message.indexOf("O seu pedido acaba de sair para entrega!");
+
+        // Verifica se os campos driver_name e driver_id estão preenchidos
+        const isDeliveryNotificationValid = indexOfDeliveryNotification !== -1 && this.driver_name && this.driver_id;
+
+        // Reformatar a mensagem se for uma notificação válida de entrega
+        if (isDeliveryNotificationValid) {
+            // Construir mensagem personalizada
+            const customDeliveryMessage = `Seu pedido está a caminho! 🛵\nEntregador: ${this.driver_name}\nAgradecemos a preferência!🤝`;
+
+            // Remove a parte da mensagem correspondente à notificação de entrega padrão
+            const mensagemSemNotificacaoEntrega = message.substring(0, indexOfDeliveryNotification);
+
+            // Concatena a mensagem personalizada com o restante do texto
+            message = customDeliveryMessage + mensagemSemNotificacaoEntrega;
+        }
+
+        // Adiciona a linha desejada ao final do texto
+        return `${message.trim()}\n\n> *Notificação enviada pelo Notifyer Connect*`;
     }
 }
 
@@ -187,7 +221,7 @@ class Notification extends Order {
         let urlRequest = arguments[1].toString();
 
         // Verifica se a URL começa com o padrão desejado
-        if ((metodo == "PUT" || metodo == "POST") && urlRequest.startsWith(urlPattern)) {
+        if ((metodo == "PUT" || metodo == "POST") && urlRequest.startsWith(urlPattern) && !urlRequest.startsWith(urlPattern + "driver")) {
             // Adicione um ouvinte para capturar o corpo da resposta
             this.addEventListener('load', function () {
                 try {
