@@ -10,7 +10,7 @@ const databaseService = new DatabaseService();
 
 document.addEventListener('DOMContentLoaded', () => {
     let AccessToken = localStorage.getItem('AccessToken');
-    AccessToken ? (navigateTo('home'), getStoreInformation(AccessToken)) : (navigateTo('auth'), localStorage.setItem('isConnected', false));
+    AccessToken ? (verifyConnectionStatus(), navigateTo('home'), getStoreInformation(AccessToken)) : (navigateTo('auth'), localStorage.setItem('isConnected', false));
     changeMode(true);
     onClickNavButtons();
     getLogbook();
@@ -184,6 +184,19 @@ function changeMode(init) {
             document.documentElement.style.setProperty('--scrollbar-thumb-color', newColor);
         }
     }
+}
+
+async function verifyConnectionStatus() {
+        try {
+            const connectionStatus = await requisicoes.get('/session/check-connection-session');
+            if (connectionStatus?.Result.status == true && connectionStatus?.Result.message == "Connected") {
+                localStorage.setItem("isConnected", 'true');
+            } else if (connectionStatus?.Result.status == false && connectionStatus?.Result.message == "Disconnected") {
+                localStorage.setItem("isConnected", 'false');
+            }
+        } catch (error) {
+            logAndHandleError('Houve algum problema ao verificar a conexão da sessão.', error);
+        }
 }
 
 function getStoreInformation(token) {
